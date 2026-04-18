@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Notification - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #333;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.form-header {
+    padding: 30px;
+    text-align: center;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.form-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: #718096;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+form {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #2d3748;
+    background: #fafbfc;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-input::placeholder {
+    color: #a0aec0;
+    font-size: 13px;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 20px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #f7fafc;
+    gap: 8px;
+}
+
+.back-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .form-container {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+
+    .form-header {
+        padding: 25px 20px;
+    }
+
+    .form-header h1 {
+        font-size: 20px;
+    }
+
+    form {
+        padding: 25px;
+    }
+}
+
+/* Hide original table */
+table[width="393"] {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+<div class="form-container">
+    <div class="form-header">
+        <h1 style="font-weight: 800">Add Notification</h1>
+        <p>Create a new notification for students and staff</p>
+    </div>
+
+    <!-- Modern Form Design -->
+    <form action="/notiaddpost" method="post">
+        <div class="form-group">
+            <label for="textfield">Title</label>
+            <input type="text" name="textfield" id="textfield" class="form-input" placeholder="Enter notification title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="textfield2">Message</label>
+            <input type="text" name="textfield2" id="textfield2" class="form-input" placeholder="Enter notification message" required>
+        </div>
+
+        <div class="form-group">
+            <label for="textfield3">Date</label>
+            <input type="text" name="textfield3" id="textfield3" class="form-input" placeholder="DD/MM/YYYY or today's date" required>
+        </div>
+
+        <button type="submit" name="button" id="button" class="submit-btn">
+            Add Notification
+        </button>
+
+        <a href="#" onclick="history.back()" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+        </a>
+    </form>
+</div>
+
+<!-- Original form (hidden but functional) -->
+<form action="/notiaddpost" method="post" style="display: none;">
+  <div align="center">
+    <table width="393" height="285" border="1">
+      <tr>
+        <th width="152">Title</th>
+        <td width="176"><label for="textfield"></label>
+        <input type="text" name="textfield" id="textfield" /></td>
+      </tr>
+      <tr>
+        <th>Message</th>
+        <td><label for="textfield2"></label>
+        <input type="text" name="textfield2" id="textfield2" /></td>
+      </tr>
+      <tr>
+        <th>Date</th>
+        <td><label for="textfield3"></label>
+        <input type="text" name="textfield3" id="textfield3" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div align="center">
+          <input type="submit" name="button" id="button" value="Add" />
+        </div></td>
+      </tr>
+  </table>
+  </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const title = document.getElementById('textfield').value.trim();
+        const message = document.getElementById('textfield2').value.trim();
+        const date = document.getElementById('textfield3').value.trim();
+
+        if (!title || !message || !date) {
+            e.preventDefault();
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        if (title.length < 3) {
+            e.preventDefault();
+            alert('Title should be at least 3 characters long.');
+            return;
+        }
+
+        if (message.length < 5) {
+            e.preventDefault();
+            alert('Message should be at least 5 characters long.');
+            return;
+        }
+    });
+
+    // Auto-focus on first input
+    const titleInput = document.getElementById('textfield');
+    titleInput.focus();
+
+    // Add focus animation to form inputs
+    const inputs = document.querySelectorAll('.form-input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'translateY(-1px)';
+        });
+
+        input.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Set current date as placeholder in date field
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+    const dateInput = document.getElementById('textfield3');
+    dateInput.setAttribute('placeholder', `e.g., ${formattedDate}`);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body><form action="/notiaddpost" method="post">#}
+{#  <div align="center">#}
+{#    <table width="393" height="285" border="1">#}
+{#      <tr>#}
+{#        <th width="152">Title</th>#}
+{#        <td width="176"><label for="textfield"></label>#}
+{#        <input type="text" name="textfield" id="textfield" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <th>Message</th>#}
+{#        <td><label for="textfield2"></label>#}
+{#        <input type="text" name="textfield2" id="textfield2" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <th>Date</th>#}
+{#        <td><label for="textfield3"></label>#}
+{#        <input type="text" name="textfield3" id="textfield3" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <td colspan="2"><div align="center">#}
+{#          <input type="submit" name="button" id="button" value="Add" />#}
+{#        </div></td>#}
+{#      </tr>#}
+{#  </table>#}
+{#  </div>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

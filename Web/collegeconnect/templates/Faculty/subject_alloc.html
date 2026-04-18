@@ -1,0 +1,911 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Faculty Subject Allocation - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    color: #1e293b;
+    line-height: 1.6;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Main Container */
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 16px 16px 0 0;
+    margin-bottom: 0;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-text h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-text p {
+    opacity: 0.95;
+    font-size: 18px;
+    font-weight: 300;
+    max-width: 500px;
+}
+
+/* Search and Filter Controls */
+.controls-container {
+    background: white;
+    padding: 25px 30px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 14px 20px 14px 50px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #475569;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+}
+
+.search-box svg {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    width: 18px;
+    height: 18px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-group select {
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #475569;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+}
+
+.reset-filters {
+    display: flex;
+    align-items: flex-end;
+}
+
+.reset-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reset-btn:hover {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    transform: translateY(-2px);
+}
+
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Modern Minimal Table */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+}
+
+thead {
+    background: white;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+thead th {
+    padding: 20px 24px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    background: white;
+}
+
+tbody tr {
+    transition: all 0.25s ease;
+    border-bottom: 1px solid #f1f5f9;
+    background: white;
+}
+
+tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+tbody td {
+    padding: 20px 24px;
+    color: #475569;
+    font-weight: 400;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+/* Serial Number Cell */
+td:first-child {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 15px;
+}
+
+/* Action Buttons Container */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Action Button Styles */
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    cursor: pointer;
+    min-width: 80px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.material-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.material-btn:hover {
+    background: linear-gradient(135deg, #459ee8 0%, #00e0e8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.25);
+}
+
+.assignment-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.assignment-btn:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a3ba1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+}
+
+.attendance-btn {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    color: white;
+}
+
+.attendance-btn:hover {
+    background: linear-gradient(135deg, #ed8c91 0%, #e8c1b8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 154, 158, 0.25);
+}
+
+.internal-btn {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #334155;
+}
+
+.internal-btn:hover {
+    background: linear-gradient(135deg, #97dcd9 0%, #ecc4d2 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(168, 237, 234, 0.25);
+}
+
+/* Button Icons */
+.action-btn svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.action-btn:hover svg {
+    transform: translateX(2px);
+}
+
+/* Faculty and Subject Cells */
+.faculty-cell {
+    font-weight: 600;
+    color: #334155;
+    font-size: 16px;
+}
+
+.subject-cell {
+    color: #475569;
+    font-size: 15px;
+}
+
+.semester-cell {
+    font-weight: 600;
+    color: #64748b;
+    text-align: center;
+}
+
+.semester-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f5f3ff 100%);
+    color: #4f46e5;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 80px 40px;
+    color: #94a3b8;
+    background: white;
+}
+
+.empty-state p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #64748b;
+}
+
+/* No Results Message */
+.no-results {
+    text-align: center;
+    padding: 60px 40px;
+    background: white;
+    display: none;
+}
+
+.no-results p {
+    font-size: 18px;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+/* Footer */
+.page-footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.back-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.back-link:hover {
+    color: #764ba2;
+    gap: 12px;
+    border-color: #667eea;
+    transform: translateX(-4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 15px;
+    }
+
+    .page-header {
+        padding: 30px 25px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+
+    .header-text h1 {
+        font-size: 28px;
+    }
+
+    .header-text p {
+        font-size: 16px;
+    }
+
+    .controls-container {
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        min-width: 100%;
+    }
+
+    .filter-controls {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .reset-filters {
+        width: 100%;
+    }
+
+    .reset-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        border-radius: 0 0 12px 12px;
+    }
+
+    table {
+        min-width: 1000px;
+    }
+
+    thead th {
+        padding: 16px 20px;
+    }
+
+    tbody td {
+        padding: 16px 20px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Hide original table */
+table[width="581"] {
+    display: none;
+}
+
+/* Animation for rows */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+tbody tr {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+tbody tr:nth-child(1) { animation-delay: 0.1s; }
+tbody tr:nth-child(2) { animation-delay: 0.2s; }
+tbody tr:nth-child(3) { animation-delay: 0.3s; }
+tbody tr:nth-child(4) { animation-delay: 0.4s; }
+tbody tr:nth-child(5) { animation-delay: 0.5s; }
+tbody tr:nth-child(n+6) { animation-delay: 0.6s; }
+</style>
+</head>
+
+<body>
+<div class="main-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-text">
+                <h1>Faculty Subject Allocation</h1>
+                <p>Manage teaching assignments, materials, and assessments for faculty members</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filter Controls -->
+    <div class="controls-container">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search papers by name...">
+        </div>
+
+        <div class="filter-controls">
+            <div class="filter-group">
+                <label for="semesterFilter">Semester</label>
+                <select id="semesterFilter">
+                    <option value="all">All Semesters</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                </select>
+            </div>
+
+            <div class="reset-filters">
+                <button id="resetFilters" class="reset-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                    Reset Filters
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Faculty Subjects Table -->
+    <div class="table-container">
+        {% if data %}
+        <table id="subjectsTable">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Faculty</th>
+                    <th>Papers</th>
+                    <th>Semester</th>
+                    <th>Teaching Materials</th>
+                    <th>Assignments</th>
+                    <th>Attendance</th>
+                    <th>Internal Marks</th>
+                </tr>
+            </thead>
+            <tbody id="subjectsTableBody">
+                {% for i in data %}
+                <tr data-paper="{{ i.SUBJECT.subname|lower }}" data-semester="{{ i.SUBJECT.semester }}"
+                    data-faculty="{{ i.FACULTY.name|lower }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td class="faculty-cell">{{ i.FACULTY.name }}</td>
+                    <td class="subject-cell">{{ i.SUBJECT.subname }}</td>
+                    <td class="semester-cell">
+                        <span class="semester-badge">Sem {{ i.SUBJECT.semester }}</span>
+                    </td>
+                    <td>
+                        <a href="/Faculty_add_material/{{ i.id }}" class="action-btn material-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            Add Material
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/Faculty_add_assignment/{{ i.id }}" class="action-btn assignment-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                            </svg>
+                            Add Assignment
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/Faculty_add_attendance/{{ i.id }}" class="action-btn attendance-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <polyline points="17 11 19 13 23 9"></polyline>
+                            </svg>
+                            Add Attendance
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/faculty_view_intstud/{{ i.id }}" class="action-btn internal-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                            Add Marks
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResultsMessage">
+            <p>No papers match your search criteria. Try adjusting your filters or search term.</p>
+            <button id="resetFromNoResults" class="reset-btn" style="margin: 0 auto;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                </svg>
+                Reset Filters
+            </button>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No subjects allocated to faculty members yet.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="page-footer">
+        <a href="#" onclick="history.back()" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Original form (hidden but functional) -->
+<form id="form1" name="form1" method="post" action="" style="display: none;">
+    <table width="581" height="169" border="1">
+        <tr>
+            <th>Slno</th>
+            <th>Faculty</th>
+            <th>Papers</th>
+            <th>Semester</th>
+            <th>Material</th>
+            <th>Assignment</th>
+            <th>Attendance</th>
+            <th>Internal Mark</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>&nbsp;{{ forloop.counter }}</td>
+            <td>&nbsp;{{ i.FACULTY.name }}</td>
+            <td>&nbsp;{{ i.SUBJECT.subname }}</td>
+            <td>{{ i.SUBJECT.semester }}</td>
+            <td><a href="/Faculty_add_material/{{ i.id }}">Add</a></td>
+            <td><a href="/Faculty_add_assignment/{{ i.id }}">Add</a></td>
+            <td><a href="/Faculty_add_attendance/{{ i.id }}">Add</a></td>
+            <td><a href="/faculty_view_intstud/{{ i.id }}">Add</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth hover effect to table rows
+    const tableRows = document.querySelectorAll('tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.08)';
+        });
+
+        row.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    });
+
+    // Add subtle animation to header on load
+    const header = document.querySelector('.page-header');
+    header.style.opacity = '0';
+    header.style.transform = 'translateY(-20px)';
+
+    setTimeout(() => {
+        header.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        header.style.opacity = '1';
+        header.style.transform = 'translateY(0)';
+    }, 100);
+
+    // Search and Filter Functionality
+    const searchInput = document.getElementById('searchInput');
+    const semesterFilter = document.getElementById('semesterFilter');
+    const resetButton = document.getElementById('resetFilters');
+    const resetFromNoResultsButton = document.getElementById('resetFromNoResults');
+    const subjectsTableBody = document.getElementById('subjectsTableBody');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    const originalRows = subjectsTableBody ? Array.from(subjectsTableBody.querySelectorAll('tr')) : [];
+
+    // Function to filter papers
+    function filterPapers() {
+        if (!subjectsTableBody) return;
+
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedSemester = semesterFilter.value;
+
+        let visibleCount = 0;
+
+        // Reset all rows first
+        originalRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Apply filters
+        originalRows.forEach(row => {
+            const paper = row.getAttribute('data-paper');
+            const semester = row.getAttribute('data-semester');
+            const faculty = row.getAttribute('data-faculty');
+
+            let matchesSearch = true;
+            let matchesSemester = true;
+
+            // Apply search filter (search in paper name and faculty name)
+            if (searchTerm) {
+                matchesSearch = paper.includes(searchTerm) || faculty.includes(searchTerm);
+            }
+
+            // Apply semester filter
+            if (selectedSemester !== 'all') {
+                matchesSemester = semester === selectedSemester;
+            }
+
+            // Show or hide row based on filters
+            if (matchesSearch && matchesSemester) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Show/hide no results message
+        if (visibleCount === 0 && originalRows.length > 0) {
+            noResultsMessage.style.display = 'block';
+            subjectsTableBody.style.display = 'none';
+        } else {
+            noResultsMessage.style.display = 'none';
+            subjectsTableBody.style.display = '';
+        }
+
+        // Update serial numbers for visible rows
+        updateSerialNumbers();
+    }
+
+    // Function to update serial numbers after filtering
+    function updateSerialNumbers() {
+        if (!subjectsTableBody) return;
+
+        const visibleRows = Array.from(subjectsTableBody.querySelectorAll('tr')).filter(row =>
+            row.style.display !== 'none'
+        );
+
+        visibleRows.forEach((row, index) => {
+            const serialCell = row.querySelector('td:first-child');
+            if (serialCell) {
+                serialCell.textContent = index + 1;
+            }
+        });
+    }
+
+    // Function to reset all filters
+    function resetFilters() {
+        searchInput.value = '';
+        semesterFilter.value = 'all';
+
+        // Reset all rows
+        originalRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Hide no results message
+        noResultsMessage.style.display = 'none';
+        if (subjectsTableBody) {
+            subjectsTableBody.style.display = '';
+        }
+
+        // Reset serial numbers
+        updateSerialNumbers();
+    }
+
+    // Event listeners for filtering
+    if (searchInput) {
+        searchInput.addEventListener('input', filterPapers);
+    }
+
+    if (semesterFilter) {
+        semesterFilter.addEventListener('change', filterPapers);
+    }
+
+    if (resetButton) {
+        resetButton.addEventListener('click', resetFilters);
+    }
+
+    if (resetFromNoResultsButton) {
+        resetFromNoResultsButton.addEventListener('click', resetFilters);
+    }
+
+    // Extract unique semester values for the filter dropdown (if not already provided)
+    function populateSemesterFilter() {
+        if (!subjectsTableBody) return;
+
+        const semesterOptions = semesterFilter.querySelectorAll('option');
+
+        // Only populate if we have only the "All Semesters" option
+        if (semesterOptions.length <= 1) {
+            const semesters = new Set();
+            originalRows.forEach(row => {
+                const semester = row.getAttribute('data-semester');
+                if (semester) {
+                    semesters.add(semester);
+                }
+            });
+
+            // Add semesters to dropdown in sorted order
+            Array.from(semesters).sort().forEach(semester => {
+                const option = document.createElement('option');
+                option.value = semester;
+                option.textContent = `Semester ${semester}`;
+                semesterFilter.appendChild(option);
+            });
+        }
+    }
+
+    // Populate semester filter on load
+    populateSemesterFilter();
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="">#}
+{#  <table width="581" height="169" border="1">#}
+{#    <tr>#}
+{#      <th>Slno</th>#}
+{#        <th>Faculty</th>#}
+{#      <th>Subject</th>#}
+{#      <th>Semester</th>#}
+{#        <th>Material</th>#}
+{#        <th>Assignment</th>#}
+{#        <th>Attendance</th>#}
+{#        <th>Internal Mark</th>#}
+{#    </tr>#}
+{#      {% for i in data %}#}
+{#    <tr>#}
+{#      <td>&nbsp;{{ forloop.counter }}</td>#}
+{#      <td>&nbsp;{{ i.FACULTY.name }}</td>#}
+{#      <td>&nbsp;{{ i.SUBJECT.subname }}</td>#}
+{#        <td>{{ i.SUBJECT.semester }}</td>#}
+{#        <td><a href="/Faculty_add_material/{{ i.id }}">Add</a> </td>#}
+{#    <td><a href="/Faculty_add_assignment/{{ i.id }}">Add</a> </td>#}
+{#    <td><a href="/Faculty_add_attendance/{{ i.id }}">Add</a> </td>#}
+{#    <td><a href="/faculty_view_intstud/{{ i.id }}">Add</a> </td>#}
+{#    </tr>#}
+{#      {% endfor %}#}
+{#  </table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

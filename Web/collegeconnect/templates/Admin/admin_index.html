@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+  <!-- Mobile Specific Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/static/img/fav.png" />
+  <!-- Author Meta -->
+  <meta name="author" content="colorlib" />
+  <!-- Meta Description -->
+  <meta name="description" content="" />
+  <!-- Meta Keyword -->
+  <meta name="keywords" content="" />
+  <!-- meta character set -->
+  <meta charset="UTF-8" />
+  <!-- Site Title -->
+  <title>Edura - College Administration System</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:900|Roboto:400,400i,500,700" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <!--
+      CSS
+      =============================================
+    -->
+  <link rel="stylesheet" href="/static/css/linearicons.css" />
+  <link rel="stylesheet" href="/static/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/static/css/bootstrap.css" />
+  <link rel="stylesheet" href="/static/css/magnific-popup.css" />
+  <link rel="stylesheet" href="/static/css/owl.carousel.css" />
+  <link rel="stylesheet" href="/static/css/nice-select.css">
+  <link rel="stylesheet" href="/static/css/hexagons.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css" />
+  <link rel="stylesheet" href="/static/css/main.css" />
+  <style>
+    /* Dashboard Specific Styles */
+    body {
+      background: #f8fafc;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .dashboard-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .dashboard-sidebar {
+      position: fixed;
+      left: 0;
+      top: 70px;
+      width: 260px;
+      height: calc(100vh - 70px);
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      overflow-y: auto;
+      transition: all 0.3s;
+      box-shadow: 4px 0 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .dashboard-content {
+      margin-left: 260px;
+      margin-top: 70px;
+      padding: 30px;
+      min-height: calc(100vh - 70px);
+      transition: all 0.3s;
+      background: #f8fafc;
+    }
+
+    .sidebar-menu {
+      padding: 20px 0;
+    }
+
+    .sidebar-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 2px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 14px 25px;
+      color: rgba(255, 255, 255, 0.95);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s;
+      border-left: 4px solid transparent;
+      position: relative;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border-left: 4px solid #ffffff;
+    }
+
+    /* Fixed Dropdown Styles - Single Arrow Only */
+    .sidebar-dropdown {
+      display: none;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .sidebar-dropdown.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .sidebar-dropdown a {
+      padding: 12px 25px 12px 50px;
+      font-size: 13.5px;
+      border-left: 4px solid transparent;
+    }
+
+    .sidebar-dropdown a:hover {
+      background: rgba(255, 255, 255, 0.12);
+      padding-left: 53px;
+      border-left: 4px solid #a5b4fc;
+    }
+
+    /* Single dropdown arrow styling */
+    .dropdown-arrow {
+      margin-left: auto;
+      font-size: 12px;
+      transition: transform 0.3s ease;
+      opacity: 0.8;
+    }
+
+    .dropdown-toggle.active .dropdown-arrow {
+      transform: rotate(180deg);
+      opacity: 1;
+    }
+
+    /* Remove extra float-right span */
+    .sidebar-menu .float-right {
+      display: none;
+    }
+
+    .dashboard-welcome {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.08);
+      transition: all 0.3s;
+      border: 1px solid #e2e8f0;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.15);
+      border-color: #c7d2fe;
+    }
+
+    .dashboard-card-icon {
+      width: 65px;
+      height: 65px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 26px;
+      color: white;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-icon-1 {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .card-icon-2 {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .card-icon-3 {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .card-icon-4 {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .dashboard-card h3 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #2d3748;
+    }
+
+    .dashboard-card p {
+      color: #718096;
+      font-size: 14.5px;
+      margin: 0;
+    }
+
+    .recent-activities {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.08);
+      margin-bottom: 30px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .recent-activities h4 {
+      color: #2d3748;
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid #f1f5f9;
+      transition: all 0.3s;
+    }
+
+    .activity-item:hover {
+      background: #f8fafc;
+      padding-left: 10px;
+      padding-right: 10px;
+      margin: 0 -10px;
+      border-radius: 8px;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      background: #f7fafc;
+      color: #667eea;
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+      border: 1px solid #e2e8f0;
+    }
+
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 17px;
+      margin-right: 14px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    /* Site Title Styling with Icon */
+    .site-title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .site-title-icon {
+      font-size: 32px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.15);
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .site-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 28px;
+      color: white;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .site-title-main {
+      display: block;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    .site-title-tagline {
+      display: block;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 2px;
+      opacity: 0.9;
+      margin-top: 2px;
+    }
+
+    /* Improved Quick Actions Design */
+    .quick-actions-card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .quick-actions-card h5 {
+      color: #2d3748;
+      font-weight: 600;
+    }
+
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .quick-action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 22px 12px;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .quick-action-btn:hover {
+      background: white;
+      border-color: #667eea;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(102, 126, 234, 0.15);
+    }
+
+    .quick-action-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      font-size: 20px;
+      color: white;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .quick-action-btn span {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4a5568;
+      line-height: 1.4;
+    }
+
+    .action-icon-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .action-icon-2 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .action-icon-3 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    .action-icon-4 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    .action-icon-5 { background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%); }
+    .action-icon-6 { background: linear-gradient(135deg, #fdba74 0%, #fed7aa 100%); }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .dashboard-sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+      }
+
+      .dashboard-content {
+        margin-left: 0;
+      }
+
+      .sidebar-open .dashboard-sidebar {
+        transform: translateX(0);
+      }
+
+      .sidebar-open .dashboard-content {
+        margin-left: 280px;
+      }
+
+      .menu-toggle {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: white;
+        cursor: pointer;
+      }
+
+      .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .site-title-wrapper {
+        gap: 8px;
+      }
+
+      .site-title-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+
+      .site-title {
+        font-size: 22px;
+      }
+
+      .site-title-main {
+        font-size: 22px;
+      }
+
+      .site-title-tagline {
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    /* System Status Styling */
+    .system-status-item {
+      margin-bottom: 22px;
+    }
+
+    .status-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .status-label span {
+      font-size: 13.5px;
+      color: #718096;
+      font-weight: 500;
+    }
+
+    .status-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      border-radius: 4px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    /* Hide original banner and sections */
+    .home-banner-area,
+    .feature-area,
+    .popular-course-area,
+    .video-area,
+    .other-feature-area,
+    .testimonials-area,
+    .registration-area,
+    .blog-post-area,
+    .footer-area {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Dashboard Header -->
+  <header class="dashboard-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <button class="menu-toggle d-lg-none">
+            <span class="lnr lnr-menu"></span>
+          </button>
+          <a class="navbar-brand" href="index.html" style="text-decoration: none;">
+            <div class="site-title-wrapper">
+              <div class="site-title-icon">
+                <i class="bi bi-buildings-fill"></i>
+              </div>
+              <div>
+                <h1 class="site-title">
+                  <span class="site-title-main">EDURA</span>
+                  <span class="site-title-tagline">education excellence simplified</span>
+                </h1>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 text-right">
+          <div class="user-info d-inline-block">
+            <div class="user-avatar">A</div>
+            <div>
+              <h6 class="mb-0" style="font-size: 14px; color: #2d3748;">Admin User</h6>
+              <small class="text-muted" style="font-size: 12px;">Administrator</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Sidebar with Single Dropdown Arrow -->
+  <aside class="dashboard-sidebar">
+    <nav class="sidebar-menu">
+      <ul>
+        <li><a href="index.html" class="active"><i class="fa fa-home mr-3"></i> Dashboard</a></li>
+
+        <!-- Departments Dropdown -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown('deptDropdown')">
+            <i class="fa fa-building mr-3"></i> Departments
+            <i class="dropdown-arrow fa fa-chevron-down"></i>
+          </a>
+          <div class="sidebar-dropdown" id="deptDropdown">
+            <a href="/Admin_add_dept">Add Departments</a>
+            <a href="/Admin_view_dept">View Departments</a>
+          </div>
+        </li>
+
+        <!-- Faculties Dropdown -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown('facultyDropdown')">
+            <i class="fa fa-users mr-3"></i> Faculties
+            <i class="dropdown-arrow fa fa-chevron-down"></i>
+          </a>
+          <div class="sidebar-dropdown" id="facultyDropdown">
+            <a href="/Admin_view_dept">Add Faculty</a>
+            <a href="/Admin_view_staff">View Faculties</a>
+          </div>
+        </li>
+
+        <!-- Streams Dropdown -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown('streamsDropdown')">
+            <i class="fa fa-graduation-cap mr-3"></i> Streams
+            <i class="dropdown-arrow fa fa-chevron-down"></i>
+          </a>
+          <div class="sidebar-dropdown" id="streamsDropdown">
+            <a href="/Admin_view_dept">Add Stream</a>
+            <a href="/Admin_view_course">View Streams</a>
+          </div>
+        </li>
+
+        <!-- Papers Dropdown -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown('papersDropdown')">
+            <i class="fa fa-file-text mr-3"></i> Papers
+            <i class="dropdown-arrow fa fa-chevron-down"></i>
+          </a>
+          <div class="sidebar-dropdown" id="papersDropdown">
+            <a href="/Admin_view_course">Add Paper</a>
+            <a href="/Admin_view_subject">View Papers</a>
+          </div>
+        </li>
+
+        <!-- Students Dropdown -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown('studentsDropdown')">
+            <i class="fa fa-graduation-cap mr-3"></i> Students
+            <i class="dropdown-arrow fa fa-chevron-down"></i>
+          </a>
+          <div class="sidebar-dropdown" id="studentsDropdown">
+            <a href="/Admin_view_course">Add Student</a>
+            <a href="/Admin_view_student">View Students</a>
+          </div>
+        </li>
+
+        <!-- Notifications Dropdown -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown('notificationsDropdown')">
+            <i class="fa fa-bell mr-3"></i> Notifications
+            <i class="dropdown-arrow fa fa-chevron-down"></i>
+          </a>
+          <div class="sidebar-dropdown" id="notificationsDropdown">
+            <a href="/Admin_add_notification">Add Notification</a>
+            <a href="/Admin_view_notification">View Notifications</a>
+          </div>
+        </li>
+
+        <!-- Events Dropdown -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown('eventsDropdown')">
+            <i class="fa fa-calendar mr-3"></i> Events
+            <i class="dropdown-arrow fa fa-chevron-down"></i>
+          </a>
+          <div class="sidebar-dropdown" id="eventsDropdown">
+            <a href="/Admin_add_event">Add Event</a>
+            <a href="/Admin_view_event">View Events</a>
+          </div>
+        </li>
+
+        <!-- More Dropdown -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown('moreDropdown')">
+            <i class="fa fa-ellipsis-h mr-3"></i> More
+            <i class="dropdown-arrow fa fa-chevron-down"></i>
+          </a>
+          <div class="sidebar-dropdown" id="moreDropdown">
+            <a href="/Admin_view_complaint">Complaints</a>
+            <a href="/changepwd">Change Password</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Dashboard Content -->
+  <main class="dashboard-content">
+    <!-- Welcome Section -->
+    <section class="dashboard-welcome">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="text-white mb-3">Welcome to Edura Admin Dashboard</h1>
+          <p class="mb-0" style="opacity: 0.95;">Edura College Administration System - Manage departments, faculties, students, and academic operations efficiently.</p>
+        </div>
+        <div class="col-lg-4 text-right">
+          <div class="d-inline-block bg-white rounded-pill px-4 py-2">
+            <span class="text-muted">Today:</span>
+            <span id="current-date" class="font-weight-bold ml-2" style="color: #667eea;"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Cards - UPDATED ICONS -->
+    <section class="dashboard-cards">
+      <div class="dashboard-card">
+        <div class="dashboard-card-icon card-icon-1">
+          <span class="fa fa-building"></span>
+        </div>
+        <h3 id="dept-count">{{ request.session.data1 }}</h3>
+        <p>Total Departments</p>
+      </div>
+
+      <div class="dashboard-card">
+        <div class="dashboard-card-icon card-icon-2">
+          <span class="fa fa-users"></span>
+        </div>
+        <h3 id="faculty-count">{{ request.session.data2 }}</h3>
+        <p>Total Faculties</p>
+      </div>
+
+      <div class="dashboard-card">
+        <div class="dashboard-card-icon card-icon-3">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <h3 id="student-count">{{ request.session.data3 }}</h3>
+        <p>Total Students</p>
+      </div>
+
+      <div class="dashboard-card">
+        <div class="dashboard-card-icon card-icon-4">
+          <i class="bi bi-calendar-event-fill"></i>
+        </div>
+        <h3 id="event-count">{{ request.session.data4 }}</h3>
+        <p>Active Events</p>
+      </div>
+    </section>
+
+    <!-- Recent Activities -->
+    <section class="recent-activities">
+      <h4>Recent Activities</h4>
+      <div class="activity-item">
+        <div class="activity-icon">
+          <span class="fa fa-user-plus"></span>
+        </div>
+        <div>
+          <h6 class="mb-1" style="color: #2d3748;">New Faculty Added</h6>
+          <small class="text-muted">{{ data5.0.name }} joined the {{ data5.0.DEPARTMENT.department_name }} department</small>
+          <small class="d-block text-muted">{{ data5.0.LOGIN.date_joined }}</small>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-icon">
+          <span class="fa fa-book"></span>
+        </div>
+        <div>
+          <h6 class="mb-1" style="color: #2d3748;">Course Updated</h6>
+          <small class="text-muted">{{ data6.0.subname }} syllabus updated for Semester {{ data6.0.semester }}</small>
+{#          <small class="d-block text-muted">{{  }}</small>#}
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-icon">
+          <span class="fa fa-bell"></span>
+        </div>
+        <div>
+          <h6 class="mb-1" style="color: #2d3748;">New Notification</h6>
+          <small class="text-muted">{{ data7.0.title }}</small>
+          <small class="d-block text-muted">{{ data7.0.date }}</small>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-icon">
+          <span class="fa fa-calendar"></span>
+        </div>
+        <div>
+          <h6 class="mb-1" style="color: #2d3748;">Event Created</h6>
+          <small class="text-muted">{{ data8.0.title }}</small>
+          <small class="d-block text-muted">{{ data8.0.event_date }}</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions & System Status -->
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="quick-actions-card">
+          <h5>Quick Actions</h5>
+          <div class="quick-actions-grid">
+            <a href="/Admin_add_dept" class="quick-action-btn">
+              <div class="quick-action-icon action-icon-1">
+                <span class="fa fa-plus"></span>
+              </div>
+              <span>Add Department</span>
+            </a>
+            <a href="/Admin_view_dept" class="quick-action-btn">
+              <div class="quick-action-icon action-icon-2">
+                <span class="fa fa-eye"></span>
+              </div>
+              <span>View Departments</span>
+            </a>
+            <a href="/Admin_add_notification" class="quick-action-btn">
+              <div class="quick-action-icon action-icon-3">
+                <span class="fa fa-bell"></span>
+              </div>
+              <span>Add Notification</span>
+            </a>
+            <a href="/Admin_add_event" class="quick-action-btn">
+              <div class="quick-action-icon action-icon-4">
+                <i class="bi bi-calendar-event-fill"></i>
+              </div>
+              <span>Create Event</span>
+            </a>
+            <a href="/changepwd" class="quick-action-btn">
+              <div class="quick-action-icon action-icon-5">
+                <span class="fa fa-key"></span>
+              </div>
+              <span>Change Password</span>
+            </a>
+            <a href="/Admin_view_complaint" class="quick-action-btn">
+              <div class="quick-action-icon action-icon-6">
+                <span class="fa fa-comments"></span>
+              </div>
+              <span>View Complaints</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="dashboard-card">
+          <h5 class="mb-4" style="color: #2d3748;">System Status</h5>
+          <div class="system-status-item">
+            <div class="status-label">
+              <span>Database Connection</span>
+              <span class="status-value">100%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="system-status-item">
+            <div class="status-label">
+              <span>Storage Usage</span>
+              <span class="status-value">65%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 65%"></div>
+            </div>
+          </div>
+          <div class="system-status-item">
+            <div class="status-label">
+              <span>System Uptime</span>
+              <span class="status-value">99.8%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 99.8%"></div>
+            </div>
+          </div>
+          <div class="system-status-item">
+            <div class="status-label">
+              <span>Active Users</span>
+              <span class="status-value">24</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 80%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- JavaScript Files -->
+  <script src="/static/js/vendor/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+  <script src="/static/js/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+  <script src="/static/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/static/js/jquery.magnific-popup.min.js"></script>
+  <script src="/static/js/parallax.min.js"></script>
+  <script src="/static/js/owl.carousel.min.js"></script>
+  <script src="/static/js/jquery.sticky.js"></script>
+  <script src="/static/js/hexagons.min.js"></script>
+  <script src="/static/js/jquery.counterup.min.js"></script>
+  <script src="/static/js/waypoints.min.js"></script>
+  <script src="/static/js/jquery.nice-select.min.js"></script>
+  <script src="/static/js/main.js"></script>
+
+  <script>
+    // Simple JavaScript for dropdown toggle
+    function toggleDropdown(dropdownId) {
+      event.preventDefault();
+
+      // Get the dropdown element
+      var dropdown = document.getElementById(dropdownId);
+      var toggleBtn = event.currentTarget;
+
+      // Toggle active class on dropdown
+      dropdown.classList.toggle('active');
+
+      // Toggle active class on toggle button
+      toggleBtn.classList.toggle('active');
+    }
+
+    function closeOtherDropdowns(currentDropdownId) {
+      var dropdowns = document.querySelectorAll('.sidebar-dropdown');
+      dropdowns.forEach(function(dropdown) {
+        if (dropdown.id !== currentDropdownId && dropdown.classList.contains('active')) {
+          dropdown.classList.remove('active');
+          var toggleBtn = dropdown.previousElementSibling;
+          if (toggleBtn && toggleBtn.classList.contains('dropdown-toggle')) {
+            toggleBtn.classList.remove('active');
+          }
+        }
+      });
+    }
+
+    // Dashboard-specific JavaScript
+    $(document).ready(function() {
+      // Set current date
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      $('#current-date').text(now.toLocaleDateString('en-US', options));
+
+      // Mobile menu toggle
+      $('.menu-toggle').click(function() {
+        $('body').toggleClass('sidebar-open');
+      });
+
+      // Animate counter numbers
+      $('.dashboard-card h3').each(function() {
+        var $this = $(this);
+        var target = parseInt($this.text());
+        var count = 0;
+        var interval = setInterval(function() {
+          if (count >= target) {
+            clearInterval(interval);
+            return;
+          }
+          count += Math.ceil(target / 50);
+          if (count > target) count = target;
+          $this.text(count);
+        }, 30);
+      });
+
+      // Auto-collapse sidebar on mobile when clicking outside
+      $(document).click(function(event) {
+        if ($(window).width() <= 768) {
+          if (!$(event.target).closest('.dashboard-sidebar, .menu-toggle').length) {
+            $('body').removeClass('sidebar-open');
+          }
+        }
+      });
+
+      // Highlight current page in sidebar
+      var currentUrl = window.location.pathname;
+      $('.sidebar-menu a').each(function() {
+        if ($(this).attr('href') === currentUrl) {
+          $(this).addClass('active');
+          // Also expand parent dropdown if it exists
+          var dropdown = $(this).closest('.sidebar-dropdown');
+          if (dropdown.length) {
+            dropdown.addClass('active');
+            var toggleBtn = dropdown.prev('.dropdown-toggle');
+            toggleBtn.addClass('active');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+{#<!DOCTYPE html>#}
+{#<html lang="zxx" class="no-js">#}
+{##}
+{#<head>#}
+{#  <!-- Mobile Specific Meta -->#}
+{#  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />#}
+{#  <!-- Favicon -->#}
+{#  <link rel="shortcut icon" href="/static/img/fav.png" />#}
+{#  <!-- Author Meta -->#}
+{#  <meta name="author" content="colorlib" />#}
+{#  <!-- Meta Description -->#}
+{#  <meta name="description" content="" />#}
+{#  <!-- Meta Keyword -->#}
+{#  <meta name="keywords" content="" />#}
+{#  <!-- meta character set -->#}
+{#  <meta charset="UTF-8" />#}
+{#  <!-- Site Title -->#}
+{#  <title>Eclipse Education</title>#}
+{##}
+{#  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:900|Roboto:400,400i,500,700" rel="stylesheet" />#}
+{#  <!--#}
+{#      CSS#}
+{#      =============================================#}
+{#    -->#}
+{#  <link rel="stylesheet" href="/static/css/linearicons.css" />#}
+{#  <link rel="stylesheet" href="/static/css/font-awesome.min.css" />#}
+{#  <link rel="stylesheet" href="/static/css/bootstrap.css" />#}
+{#  <link rel="stylesheet" href="/static/css/magnific-popup.css" />#}
+{#  <link rel="stylesheet" href="/static/css/owl.carousel.css" />#}
+{#  <link rel="stylesheet" href="/static/css/nice-select.css">#}
+{#  <link rel="stylesheet" href="/static/css/hexagons.min.css" />#}
+{#  <link rel="stylesheet" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css" />#}
+{#  <link rel="stylesheet" href="/static/css/main.css" />#}
+{#</head>#}
+{##}
+{#<body>#}
+{#  <!-- ================ Start Header Area ================= -->#}
+{#  <header class="default-header">#}
+{#    <nav class="navbar navbar-expand-lg  navbar-light">#}
+{#      <div class="container">#}
+{#        <a class="navbar-brand" href="index.html">#}
+{#          <img src="/static/img/logo.png" alt="" />#}
+{#        </a>#}
+{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"#}
+{#          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
+{#          <span class="lnr lnr-menu"></span>#}
+{#        </button>#}
+{##}
+{#        <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarSupportedContent">#}
+{#          <ul class="navbar-nav">#}
+{#            <li><a href="index.html">Home</a></li>#}
+{#            <!-- Dropdown -->#}
+{#            <li class="dropdown">#}
+{#              <a class="dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                Departments#}
+{#              </a>#}
+{#              <div class="dropdown-menu">#}
+{#                <a class="dropdown-item" href="/Admin_add_dept">Add Departments</a>#}
+{#                <a class="dropdown-item" href="/Admin_view_dept">View Departments</a>#}
+{#              </div>#}
+{#            </li>#}
+{#            <li class="dropdown">#}
+{#              <a class="dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                Faculties#}
+{#              </a>#}
+{#              <div class="dropdown-menu">#}
+{#                <a class="dropdown-item" href="/Admin_view_dept">Add Faculty</a>#}
+{#                <a class="dropdown-item" href="/Admin_view_staff">View Faculties</a>#}
+{#              </div>#}
+{#            </li>#}
+{#              <li class="dropdown">#}
+{#              <a class="dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                Streams#}
+{#              </a>#}
+{#              <div class="dropdown-menu">#}
+{#                <a class="dropdown-item" href="/Admin_view_dept">Add Stream</a>#}
+{#                <a class="dropdown-item" href="/Admin_view_course">View Streams</a>#}
+{#              </div>#}
+{#            </li>#}
+{#              <li class="dropdown">#}
+{#              <a class="dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                Papers#}
+{#              </a>#}
+{#              <div class="dropdown-menu">#}
+{#                <a class="dropdown-item" href="/Admin_view_course">Add Paper</a>#}
+{#                <a class="dropdown-item" href="/Admin_view_subject">View Papers</a>#}
+{#              </div>#}
+{#            </li>#}
+{#              <li class="dropdown">#}
+{#              <a class="dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                Students#}
+{#              </a>#}
+{#              <div class="dropdown-menu">#}
+{#                <a class="dropdown-item" href="/Admin_view_course">Add Student</a>#}
+{#                <a class="dropdown-item" href="/Admin_view_student">View Students</a>#}
+{#              </div>#}
+{#            </li>#}
+{#              <li class="dropdown">#}
+{#              <a class="dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                Notifications#}
+{#              </a>#}
+{#              <div class="dropdown-menu">#}
+{#                <a class="dropdown-item" href="/Admin_add_notification">Add Notification</a>#}
+{#                <a class="dropdown-item" href="/Admin_view_notification">View Notifications</a>#}
+{#              </div>#}
+{#            </li>#}
+{#              <li class="dropdown">#}
+{#              <a class="dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                Events#}
+{#              </a>#}
+{#              <div class="dropdown-menu">#}
+{#                <a class="dropdown-item" href="/Admin_add_event">Add Event</a>#}
+{#                <a class="dropdown-item" href="/Admin_view_event">View Events</a>#}
+{#              </div>#}
+{#            </li>#}
+{#              <li class="dropdown">#}
+{#              <a class="dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                More#}
+{#              </a>#}
+{#              <div class="dropdown-menu">#}
+{#                <a class="dropdown-item" href="/Admin_view_complaint">Complaints</a>#}
+{#                <a class="dropdown-item" href="/changepwd">Change Password</a>#}
+{#              </div>#}
+{#            </li>#}
+{##}
+{#          </ul>#}
+{#        </div>#}
+{#      </div>#}
+{#    </nav>#}
+{#  </header>#}
+{#  <!-- ================ End Header Area ================= -->#}
+{##}
+{#  <!-- ================ start banner Area ================= -->#}
+{#  <section class="home-banner-area">#}
+{#    <div class="container">#}
+{#      <div class="row justify-content-center fullscreen align-items-center">#}
+{#        <div class="col-lg-5 col-md-8 home-banner-left">#}
+{#          <h1 class="text-white">#}
+{#            Take the first step <br />#}
+{#            to learn with us#}
+{#          </h1>#}
+{#          <p class="mx-auto text-white  mt-20 mb-40">#}
+{#            In the history of modern astronomy, there is probably no one#}
+{#            greater leap forward than the building and launch of the space#}
+{#            telescope known as the Hubble.#}
+{#          </p>#}
+{#        </div>#}
+{#        <div class="offset-lg-2 col-lg-5 col-md-12 home-banner-right">#}
+{#          <img class="img-fluid" src="/static/img/header-img.png" alt="" />#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </section>#}
+{#  <!-- ================ End banner Area ================= -->#}
+{##}
+{#  <!-- ================ Start Feature Area ================= -->#}
+{#  <section class="feature-area">#}
+{#    <div class="container-fluid">#}
+{#      <div class="feature-inner row">#}
+{#        <div class="col-lg-2 col-md-6">#}
+{#          <div class="feature-item d-flex">#}
+{#            <i class="ti-book"></i>#}
+{#            <div class="ml-20">#}
+{#              <h4>New Classes</h4>#}
+{#              <p>#}
+{#                In the history of modern astronomy, there is probably no one greater leap forward.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-2 col-md-6">#}
+{#          <div class="feature-item d-flex">#}
+{#            <i class="ti-cup"></i>#}
+{#            <div class="ml-20">#}
+{#              <h4>Top Courses</h4>#}
+{#              <p>#}
+{#                In the history of modern astronomy, there is probably no one greater leap forward.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-2 col-md-6">#}
+{#          <div class="feature-item d-flex border-right-0">#}
+{#            <i class="ti-desktop"></i>#}
+{#            <div class="ml-20">#}
+{#              <h4>Full E-Books</h4>#}
+{#              <p>#}
+{#                In the history of modern astronomy, there is probably no one greater leap forward.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </section>#}
+{#  <!-- ================ End Feature Area ================= -->#}
+{##}
+{#  <!-- ================ Start Popular Course Area ================= -->#}
+{#  <section class="popular-course-area section-gap">#}
+{#    <div class="container-fluid">#}
+{#      <div class="row justify-content-center section-title">#}
+{#        <div class="col-lg-12">#}
+{#          <h2>#}
+{#            Popular Courses <br />#}
+{#            Available Right Now#}
+{#          </h2>#}
+{#          <p>#}
+{#            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do#}
+{#            eiusmod tempor incididunt ut labore et dolore magna aliqua.#}
+{#          </p>#}
+{#        </div>#}
+{#      </div>#}
+{#      <div class="owl-carousel popuar-course-carusel">#}
+{#        <div class="single-popular-course">#}
+{#          <div class="thumb">#}
+{#            <img class="f-img img-fluid mx-auto" src="/static/img/popular-course/p1.jpg" alt="" />#}
+{#          </div>#}
+{#          <div class="details">#}
+{#            <div class="d-flex justify-content-between mb-20">#}
+{#              <p class="name">programming language</p>#}
+{#              <p class="value">$150</p>#}
+{#            </div>#}
+{#            <a href="#">#}
+{#              <h4>Learn Angular JS Course for Legendary Persons</h4>#}
+{#            </a>#}
+{#            <div class="bottom d-flex mt-15">#}
+{#              <ul class="list">#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#              </ul>#}
+{#              <p class="ml-20">25 Reviews</p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <div class="single-popular-course">#}
+{#          <div class="thumb">#}
+{#            <img class="f-img img-fluid mx-auto" src="/static/img/popular-course/p2.jpg" alt="" />#}
+{#          </div>#}
+{#          <div class="details">#}
+{#            <div class="d-flex justify-content-between mb-20">#}
+{#              <p class="name">programming language</p>#}
+{#              <p class="value">$150</p>#}
+{#            </div>#}
+{#            <a href="#">#}
+{#              <h4>Learn Angular JS Course for Legendary Persons</h4>#}
+{#            </a>#}
+{#            <div class="bottom d-flex mt-15">#}
+{#              <ul class="list">#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#              </ul>#}
+{#              <p class="ml-20">25 Reviews</p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <div class="single-popular-course">#}
+{#          <div class="thumb">#}
+{#            <img class="f-img img-fluid mx-auto" src="/static/img/popular-course/p3.jpg" alt="" />#}
+{#          </div>#}
+{#          <div class="details">#}
+{#            <div class="d-flex justify-content-between mb-20">#}
+{#              <p class="name">programming language</p>#}
+{#              <p class="value">$150</p>#}
+{#            </div>#}
+{#            <a href="#">#}
+{#              <h4>Learn Angular JS Course for Legendary Persons</h4>#}
+{#            </a>#}
+{#            <div class="bottom d-flex mt-15">#}
+{#              <ul class="list">#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#              </ul>#}
+{#              <p class="ml-20">25 Reviews</p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <div class="single-popular-course">#}
+{#          <div class="thumb">#}
+{#            <img class="f-img img-fluid mx-auto" src="/static/img/popular-course/p4.jpg" alt="" />#}
+{#          </div>#}
+{#          <div class="details">#}
+{#            <div class="d-flex justify-content-between mb-20">#}
+{#              <p class="name">programming language</p>#}
+{#              <p class="value">$150</p>#}
+{#            </div>#}
+{#            <a href="#">#}
+{#              <h4>Learn Angular JS Course for Legendary Persons</h4>#}
+{#            </a>#}
+{#            <div class="bottom d-flex mt-15">#}
+{#              <ul class="list">#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#"><i class="fa fa-star"></i></a>#}
+{#                </li>#}
+{#              </ul>#}
+{#              <p class="ml-20">25 Reviews</p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </section>#}
+{#  <!-- ================ End Popular Course Area ================= -->#}
+{##}
+{#  <!-- ================ Start Video Area ================= -->#}
+{#  <section class="video-area section-gap-bottom">#}
+{#    <div class="container">#}
+{#      <div class="row align-items-center">#}
+{#        <div class="col-lg-5">#}
+{#          <div class="section-title text-white">#}
+{#            <h2 class="text-white">#}
+{#              Watch Our Trainers <br>#}
+{#              in Live Action#}
+{#            </h2>#}
+{#            <p>#}
+{#              In the history of modern astronomy, there is probably no one greater leap forward than the building and#}
+{#              launch of the space telescope known as the Hubble.#}
+{#            </p>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="offset-lg-1 col-md-6 video-left">#}
+{#          <div class="owl-carousel video-carousel">#}
+{#            <div class="single-video">#}
+{#              <div class="video-part">#}
+{#                <img class="img-fluid" src="/static/img/video-img.jpg" alt="">#}
+{#                <div class="overlay"></div>#}
+{#                <a class="popup-youtube play-btn" href="https://www.youtube.com/watch?v=VufDd-QL1c0">#}
+{#                  <img class="play-icon" src="/static/img/play-btn.png" alt="">#}
+{#                </a>#}
+{#              </div>#}
+{#              <h4 class="text-white mb-20 mt-30">Learn Angular js Course for Legendary Persons</h4>#}
+{#              <p class="text-white mb-20">#}
+{#                In the history of modern astronomy, there is probably no one greater leap forward than the building and#}
+{#                launch of the space telescope known as the Hubble.#}
+{#              </p>#}
+{#            </div>#}
+{##}
+{#            <div class="single-video">#}
+{#              <div class="video-part">#}
+{#                <img class="img-fluid" src="/static/img/video-img.jpg" alt="">#}
+{#                <div class="overlay"></div>#}
+{#                <a class="popup-youtube play-btn" href="https://www.youtube.com/watch?v=VufDd-QL1c0">#}
+{#                  <img class="play-icon" src="/static/img/play-btn.png" alt="">#}
+{#                </a>#}
+{#              </div>#}
+{#              <h4 class="text-white mb-20 mt-30">Learn Angular js Course for Legendary Persons</h4>#}
+{#              <p class="text-white mb-20">#}
+{#                In the history of modern astronomy, there is probably no one greater leap forward than the building and#}
+{#                launch of the space telescope known as the Hubble.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </section>#}
+{#  <!-- ================ End Video Area ================= -->#}
+{##}
+{#  <!-- ================ Start Feature Area ================= -->#}
+{#  <section class="other-feature-area">#}
+{#    <div class="container">#}
+{#      <div class="feature-inner row">#}
+{#        <div class="col-lg-12">#}
+{#          <div class="section-title text-left">#}
+{#            <h2>#}
+{#              Features That <br />#}
+{#              Can Avail By Everyone#}
+{#            </h2>#}
+{#            <p>#}
+{#              If you are looking at blank cassettes on the web, you may be#}
+{#              very confused at the difference in price. You may see some for#}
+{#              as low as $.17 each.#}
+{#            </p>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6">#}
+{#          <div class="other-feature-item">#}
+{#            <i class="ti-key"></i>#}
+{#            <h4>Lifetime Access</h4>#}
+{#            <div>#}
+{#              <p>#}
+{#                Lorem ipsum dolor sit amet consec tetur adipisicing elit, sed#}
+{#                do eiusmod tempor incididunt labore. Lorem ipsum dolor sit#}
+{#                amet consec tetur adipisicing elit, sed do eiusmod tempor#}
+{#                incididunt labore.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6 mt--160">#}
+{#          <div class="other-feature-item">#}
+{#            <i class="ti-files"></i>#}
+{#            <h4>Source File Included</h4>#}
+{#            <div>#}
+{#              <p>#}
+{#                Lorem ipsum dolor sit amet consec tetur adipisicing elit, sed#}
+{#                do eiusmod tempor incididunt labore. Lorem ipsum dolor sit#}
+{#                amet consec tetur adipisicing elit, sed do eiusmod tempor#}
+{#                incididunt labore.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6 mt--260">#}
+{#          <div class="other-feature-item">#}
+{#            <i class="ti-medall-alt"></i>#}
+{#            <h4>Student Membership</h4>#}
+{#            <div>#}
+{#              <p>#}
+{#                Lorem ipsum dolor sit amet consec tetur adipisicing elit, sed#}
+{#                do eiusmod tempor incididunt labore. Lorem ipsum dolor sit#}
+{#                amet consec tetur adipisicing elit, sed do eiusmod tempor#}
+{#                incididunt labore.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6">#}
+{#          <div class="other-feature-item">#}
+{#            <i class="ti-briefcase"></i>#}
+{#            <h4>35000+ Courses</h4>#}
+{#            <div>#}
+{#              <p>#}
+{#                Lorem ipsum dolor sit amet consec tetur adipisicing elit, sed#}
+{#                do eiusmod tempor incididunt labore. Lorem ipsum dolor sit#}
+{#                amet consec tetur adipisicing elit, sed do eiusmod tempor#}
+{#                incididunt labore.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6 mt--160">#}
+{#          <div class="other-feature-item">#}
+{#            <i class="ti-crown"></i>#}
+{#            <h4>Expert Mentors</h4>#}
+{#            <div>#}
+{#              <p>#}
+{#                Lorem ipsum dolor sit amet consec tetur adipisicing elit, sed#}
+{#                do eiusmod tempor incididunt labore. Lorem ipsum dolor sit#}
+{#                amet consec tetur adipisicing elit, sed do eiusmod tempor#}
+{#                incididunt labore.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6 mt--260">#}
+{#          <div class="other-feature-item">#}
+{#            <i class="ti-headphone-alt"></i>#}
+{#            <h4>Live Supports</h4>#}
+{#            <div>#}
+{#              <p>#}
+{#                Lorem ipsum dolor sit amet consec tetur adipisicing elit, sed#}
+{#                do eiusmod tempor incididunt labore. Lorem ipsum dolor sit#}
+{#                amet consec tetur adipisicing elit, sed do eiusmod tempor#}
+{#                incididunt labore.#}
+{#              </p>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </section>#}
+{#  <!-- ================ End Feature Area ================= -->#}
+{##}
+{#  <!-- ================ Start Testimonials Area ================= -->#}
+{#  <section class="testimonials-area section-gap">#}
+{#    <div class="container">#}
+{#      <div class="testi-slider owl-carousel" data-slider-id="1">#}
+{#        <div class="row align-items-center">#}
+{#          <div class="col-lg-5">#}
+{#            <div class="item">#}
+{#              <div class="testi-item">#}
+{#                <img src="/static/img/quote.png" alt="" />#}
+{#                <div class="mt-40 text">#}
+{#                  <p>#}
+{#                    As conscious traveling Paup ers we must always be oncerned#}
+{#                    about our dear Mother Earth. If you think about it, you#}
+{#                    travel across her face and She is the host to your#}
+{#                    journey.#}
+{#                  </p>#}
+{#                </div>#}
+{#                <h4>Fanny Spencer</h4>#}
+{#                <p>Chief Executive, Amazon</p>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{##}
+{#          <div class="offset-lg-1 col-lg-6">#}
+{#            <img src="/static/img/testimonial/t1.jpg" alt="" />#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <div class="row align-items-center">#}
+{#          <div class="col-lg-5">#}
+{#            <div class="item">#}
+{#              <div class="testi-item">#}
+{#                <img src="/static/img/quote.png" alt="" />#}
+{#                <div class="mt-40 text">#}
+{#                  <p>#}
+{#                    As conscious traveling Paup ers we must always be oncerned#}
+{#                    about our dear Mother Earth. If you think about it, you#}
+{#                    travel across her face <br />#}
+{#                    and She is the host to your journey.#}
+{#                  </p>#}
+{#                </div>#}
+{#                <h4>Fanny Spencer</h4>#}
+{#                <p>Chief Executive, Amazon</p>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{##}
+{#          <div class="offset-lg-1 col-lg-6">#}
+{#            <img src="/static/img/testimonial/t1.jpg" alt="" />#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </section>#}
+{#  <!-- ================ End Testimonials Area ================= -->#}
+{##}
+{#  <!-- ================ Start Registration Area ================= -->#}
+{#  <section class="registration-area">#}
+{#    <div class="container">#}
+{#      <div class="row align-items-end">#}
+{#        <div class="col-lg-5">#}
+{#          <div class="section-title text-left text-white">#}
+{#            <h2 class="text-white">#}
+{#              Watch Our Trainers <br>#}
+{#              in Live Action#}
+{#            </h2>#}
+{#            <p>#}
+{#              If you are looking at blank cassettes on the web, you may be#}
+{#              very confused at the difference in price. You may see some for#}
+{#              as low as $.17 each.#}
+{#            </p>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="offset-lg-3 col-lg-4 col-md-6">#}
+{#          <div class="course-form-section">#}
+{#            <h3 class="text-white">Courses for Free</h3>#}
+{#            <p class="text-white">It is high time for learning</p>#}
+{#            <form class="course-form-area contact-page-form course-form text-right" id="myForm" action="mail.html" method="post">#}
+{#              <div class="form-group col-md-12">#}
+{#                <input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''"#}
+{#                 onblur="this.placeholder = 'Name'">#}
+{#              </div>#}
+{#              <div class="form-group col-md-12">#}
+{#                <input type="text" class="form-control" id="subject" name="subject" placeholder="Phone Number" onfocus="this.placeholder = ''"#}
+{#                 onblur="this.placeholder = 'Phone Number'">#}
+{#              </div>#}
+{#              <div class="form-group col-md-12">#}
+{#                <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''"#}
+{#                 onblur="this.placeholder = 'Email Address'">#}
+{#              </div>#}
+{#              <div class="col-lg-12 text-center">#}
+{#                <button class="btn text-uppercase">Submit</button>#}
+{#              </div>#}
+{#            </form>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </section>#}
+{#  <!-- ================ End Registration Area ================= -->#}
+{##}
+{#  <!-- ================ Start Blog Post Area ================= -->#}
+{#  <section class="blog-post-area section-gap">#}
+{#    <div class="container-fluid">#}
+{#      <div class="feature-inner row">#}
+{#        <div class="col-lg-12">#}
+{#          <div class="section-title text-left">#}
+{#            <h2>#}
+{#              Features That <br />#}
+{#              Can Avail By Everyone#}
+{#            </h2>#}
+{#            <p>#}
+{#              There is a moment in the life of any aspiring astronomer that it is time to buy that first telescope.#}
+{#              It’s exciting to think about setting up your own viewing station.#}
+{#            </p>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6">#}
+{#          <div class="single-blog-post">#}
+{#            <img src="/static/img/blog-post/b1.jpg" class="img-fluid" alt="" />#}
+{#            <div class="overlay"></div>#}
+{#            <div class="top-text">#}
+{#              <p>29th, oct, 2018</p>#}
+{#              <p>121 likes</p>#}
+{#              <p>05 comments</p>#}
+{#            </div>#}
+{#            <div class="text">#}
+{#              <h4 class="text-white">Smart Kitchen Setup</h4>#}
+{#              <div>#}
+{#                <p>#}
+{#                  Lorem ipsum dolor sit amet consec tetur adipisicing elit,#}
+{#                  sed do.#}
+{#                </p>#}
+{#              </div>#}
+{#              <a href="#" class="primary-btn">#}
+{#                View Details#}
+{#                <i class="fa fa-long-arrow-right"></i>#}
+{#              </a>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6 mt--160">#}
+{#          <div class="single-blog-post">#}
+{#            <img src="/static/img/blog-post/b2.jpg" class="img-fluid" alt="" />#}
+{#            <div class="overlay"></div>#}
+{#            <div class="top-text">#}
+{#              <p>29th, oct, 2018</p>#}
+{#              <p>121 likes</p>#}
+{#              <p>05 comments</p>#}
+{#            </div>#}
+{#            <div class="text">#}
+{#              <h4 class="text-white">Smart Kitchen Setup</h4>#}
+{#              <div>#}
+{#                <p>#}
+{#                  Lorem ipsum dolor sit amet consec tetur adipisicing elit,#}
+{#                  sed do.#}
+{#                </p>#}
+{#              </div>#}
+{#              <a href="#" class="primary-btn">#}
+{#                View Details#}
+{#                <i class="fa fa-long-arrow-right"></i>#}
+{#              </a>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-4 col-md-6 mt--260">#}
+{#          <div class="single-blog-post">#}
+{#            <img src="/static/img/blog-post/b3.jpg" class="img-fluid" alt="" />#}
+{#            <div class="overlay"></div>#}
+{#            <div class="top-text">#}
+{#              <p>29th, oct, 2018</p>#}
+{#              <p>121 likes</p>#}
+{#              <p>05 comments</p>#}
+{#            </div>#}
+{#            <div class="text">#}
+{#              <h4 class="text-white">Smart Kitchen Setup</h4>#}
+{#              <div>#}
+{#                <p>#}
+{#                  Lorem ipsum dolor sit amet consec tetur adipisicing elit,#}
+{#                  sed do.#}
+{#                </p>#}
+{#              </div>#}
+{#              <a href="#" class="primary-btn">#}
+{#                View Details#}
+{#                <i class="fa fa-long-arrow-right"></i>#}
+{#              </a>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </section>#}
+{#  <!-- ================ End Blog Post Area ================= -->#}
+{##}
+{#  <!-- ================ start footer Area ================= -->#}
+{#  <footer class="footer-area section-gap">#}
+{#		<div class="container">#}
+{#			<div class="row">#}
+{#				<div class="col-lg-2 col-md-6 single-footer-widget">#}
+{#					<h4>Top Products</h4>#}
+{#					<ul>#}
+{#						<li><a href="#">Managed Website</a></li>#}
+{#						<li><a href="#">Manage Reputation</a></li>#}
+{#						<li><a href="#">Power Tools</a></li>#}
+{#						<li><a href="#">Marketing Service</a></li>#}
+{#					</ul>#}
+{#				</div>#}
+{#				<div class="col-lg-2 col-md-6 single-footer-widget">#}
+{#					<h4>Quick Links</h4>#}
+{#					<ul>#}
+{#						<li><a href="#">Jobs</a></li>#}
+{#						<li><a href="#">Brand Assets</a></li>#}
+{#						<li><a href="#">Investor Relations</a></li>#}
+{#						<li><a href="#">Terms of Service</a></li>#}
+{#					</ul>#}
+{#				</div>#}
+{#				<div class="col-lg-2 col-md-6 single-footer-widget">#}
+{#					<h4>Features</h4>#}
+{#					<ul>#}
+{#						<li><a href="#">Jobs</a></li>#}
+{#						<li><a href="#">Brand Assets</a></li>#}
+{#						<li><a href="#">Investor Relations</a></li>#}
+{#						<li><a href="#">Terms of Service</a></li>#}
+{#					</ul>#}
+{#				</div>#}
+{#				<div class="col-lg-2 col-md-6 single-footer-widget">#}
+{#					<h4>Resources</h4>#}
+{#					<ul>#}
+{#						<li><a href="#">Guides</a></li>#}
+{#						<li><a href="#">Research</a></li>#}
+{#						<li><a href="#">Experts</a></li>#}
+{#						<li><a href="#">Agencies</a></li>#}
+{#					</ul>#}
+{#				</div>#}
+{#				<div class="col-lg-4 col-md-6 single-footer-widget">#}
+{#					<h4>Newsletter</h4>#}
+{#					<p>You can trust us. we only send promo offers,</p>#}
+{#					<div class="form-wrap" id="mc_embed_signup">#}
+{#						<form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"#}
+{#						 method="get" class="form-inline">#}
+{#							<input class="form-control" name="EMAIL" placeholder="Your Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address '"#}
+{#							 required="" type="email">#}
+{#							<button class="click-btn btn btn-default text-uppercase">subscribe</button>#}
+{#							<div style="position: absolute; left: -5000px;">#}
+{#								<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">#}
+{#							</div>#}
+{##}
+{#							<div class="info"></div>#}
+{#						</form>#}
+{#					</div>#}
+{#				</div>#}
+{#			</div>#}
+{#			<div class="footer-bottom row align-items-center">#}
+{#				<p class="footer-text m-0 col-lg-8 col-md-12">#}
+{#<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->#}
+{#Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>#}
+{#<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>#}
+{#				<div class="col-lg-4 col-md-12 footer-social">#}
+{#					<a href="#"><i class="fa fa-facebook"></i></a>#}
+{#					<a href="#"><i class="fa fa-twitter"></i></a>#}
+{#					<a href="#"><i class="fa fa-dribbble"></i></a>#}
+{#					<a href="#"><i class="fa fa-behance"></i></a>#}
+{#				</div>#}
+{#			</div>#}
+{#		</div>#}
+{#	</footer>#}
+{#  <!-- ================ End footer Area ================= -->#}
+{##}
+{#  <script src="/static/js/vendor/jquery-2.2.4.min.js"></script>#}
+{#  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"#}
+{#    crossorigin="anonymous"></script>#}
+{#  <script src="/static/js/vendor/bootstrap.min.js"></script>#}
+{#  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>#}
+{#  <script src="/static/js/jquery.ajaxchimp.min.js"></script>#}
+{#  <script src="/static/js/jquery.magnific-popup.min.js"></script>#}
+{#  <script src="/static/js/parallax.min.js"></script>#}
+{#  <script src="/static/js/owl.carousel.min.js"></script>#}
+{#  <script src="/static/js/jquery.sticky.js"></script>#}
+{#  <script src="/static/js/hexagons.min.js"></script>#}
+{#  <script src="/static/js/jquery.counterup.min.js"></script>#}
+{#  <script src="/static/js/waypoints.min.js"></script>#}
+{#  <script src="/static/js/jquery.nice-select.min.js"></script>#}
+{#  <script src="/static/js/main.js"></script>#}
+{#</body>#}
+{##}
+{#</html>#}

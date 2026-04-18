@@ -1,0 +1,19 @@
+# Main Django Backend dependencies
+Django>=3.0.0
+django-cors-headers>=3.0.0
+sqlparse>=0.5.0
+pytz>=2024.1
+
+# AI Summarization Service dependencies - Compatible with Python 3.12
+Flask>=2.3.0
+flask-cors>=4.0.0
+transformers>=4.38.0
+torch>=2.2.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Common utilities
+PyPDF2>=3.0.0
+tqdm>=4.66.0
+pydantic>=2.7.0
+google-generativeai>=0.5.0

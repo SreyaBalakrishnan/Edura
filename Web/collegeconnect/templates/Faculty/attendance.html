@@ -1,0 +1,554 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Attendance - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    background: white;
+    border-radius: 12px;
+    padding: 24px 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e9ecef;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: #718096;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.form-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+/* Attendance Table */
+.attendance-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.attendance-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.attendance-table th {
+    padding: 18px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.attendance-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: all 0.2s ease;
+}
+
+.attendance-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.attendance-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: #4a5568;
+    vertical-align: middle;
+}
+
+/* Alternate row coloring */
+.attendance-table tbody tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+.attendance-table tbody tr:nth-child(even):hover {
+    background-color: #f1f5f9;
+}
+
+/* Checkbox styling */
+.attendance-checkbox {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+}
+
+.attendance-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkbox-label {
+    display: block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.checkbox-label:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.attendance-checkbox input[type="checkbox"]:checked + .checkbox-label {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: transparent;
+}
+
+.attendance-checkbox input[type="checkbox"]:checked + .checkbox-label::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Status indicator for attendance */
+.attendance-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    font-size: 12px;
+    font-weight: 600;
+    color: #718096;
+}
+
+/* Student name styling */
+.student-name {
+    font-weight: 500;
+    color: #2d3748;
+}
+
+.student-email {
+    font-size: 12px;
+    color: #718096;
+    display: block;
+    margin-top: 4px;
+}
+
+/* Course info styling */
+.course-info {
+    font-size: 13px;
+    color: #4a5568;
+}
+
+.year-semester {
+    display: flex;
+    gap: 4px;
+    font-size: 12px;
+    color: #718096;
+    margin-top: 4px;
+}
+
+/* Submit button */
+.submit-section {
+    padding: 24px 30px;
+    background: #fafbfc;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.submit-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.5;
+}
+
+/* Back link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 20px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #f7fafc;
+    gap: 8px;
+}
+
+.back-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .attendance-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .header {
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        padding: 12px 8px;
+        font-size: 12px;
+    }
+
+    .submit-section {
+        padding: 20px;
+    }
+
+    .submit-btn {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+}
+
+/* Hide original table */
+table[width="1382"] {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <h1 style="font-weight: 800">Mark Attendance</h1>
+        <p>Select students present for today's class</p>
+    </div>
+
+    <!-- Modern Form Design -->
+    <form id="modernForm" name="form1" method="post" action="/attendanceaddpost/{{ id }}">
+        <div class="form-container">
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Roll No</th>
+                        <th>Year</th>
+                        <th>Semester</th>
+                        <th>Contact</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <span class="student-name">{{ i.name }}</span>
+                            <span class="student-email">{{ i.email }}</span>
+                        </td>
+                        <td>
+                            <span class="course-info">{{ i.COURSE.course_name }}</span>
+                        </td>
+                        <td>{{ i.roll_no }}</td>
+                        <td>
+                            {{ i.year }}
+                            <div class="year-semester">
+                                <span>Year</span>
+                            </div>
+                        </td>
+                        <td>
+                            {{ i.semester }}
+                            <div class="year-semester">
+                                <span>Semester</span>
+                            </div>
+                        </td>
+                        <td>{{ i.number }}</td>
+                        <td>
+                            <div class="attendance-checkbox">
+                                <input type="checkbox" name="Attendance" value="{{ i.id }}" id="Attendance_{{ forloop.counter0 }}" />
+                                <label class="checkbox-label" for="Attendance_{{ forloop.counter0 }}"></label>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="submit-section">
+                <button type="submit" class="submit-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    Submit Attendance
+                </button>
+
+                <div style="margin-top: 20px;">
+                    <a href="#" onclick="history.back()" class="back-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"></path>
+                            <path d="M12 19l-7-7 7-7"></path>
+                        </svg>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Original form (hidden but functional) -->
+<form id="form1" name="form1" method="post" action="/attendanceaddpost/{{ id }}" style="display: none;">
+  <div align="center">
+    <table width="1382" height="212" border="1">
+      <tr>
+        <th width="110" height="103">Slno</th>
+        <th width="180">Student</th>
+        <th width="145">Course</th>
+        <th width="145">Roll No</th>
+        <th width="145">Year</th>
+        <th width="145">Semester</th>
+        <th width="145">Number</th>
+        <th width="145">Email</th>
+        <th width="164">Attendance</th>
+      </tr>
+                {% for i in data %}
+
+      <tr>
+        <td>&nbsp;{{ forloop.counter }}</td>
+        <td>&nbsp;{{ i.name }}</td>
+        <td>&nbsp;{{ i.COURSE.course_name}}</td>
+        <td>&nbsp;{{ i.roll_no}}</td>
+        <td>&nbsp;{{ i.year }}</td>
+        <td>&nbsp;{{ i.semester }}</td>
+        <td>{{ i.number }}</td>
+        <td>{{ i.email }}</td>
+        <td><label for="attendance"></label><p>
+<input type="checkbox" name="Attendance" value="{{ i.id }}" id="Attendance_0" />
+     </td>
+      </tr>
+        {% endfor %}
+  </table>
+  <input type="submit" value="Submit Attendance"/>
+
+  </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation
+    const form = document.getElementById('modernForm');
+    const originalForm = document.getElementById('form1');
+
+    // Sync checkboxes to original form
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Collect all checked checkboxes
+        const checkboxes = form.querySelectorAll('input[name="Attendance"]:checked');
+
+        // Update original form checkboxes
+        const originalCheckboxes = originalForm.querySelectorAll('input[name="Attendance"]');
+        originalCheckboxes.forEach(cb => cb.checked = false);
+
+        checkboxes.forEach(cb => {
+            const originalCb = originalForm.querySelector(`input[name="Attendance"][value="${cb.value}"]`);
+            if (originalCb) {
+                originalCb.checked = true;
+            }
+        });
+
+        // Show loading state
+        const submitBtn = form.querySelector('.submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity="0.25"/><path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg> Submitting...';
+        submitBtn.disabled = true;
+
+        // Submit original form after a short delay
+        setTimeout(() => {
+            originalForm.submit();
+        }, 300);
+    });
+
+    // Add row hover effect enhancement
+    const rows = document.querySelectorAll('.attendance-table tbody tr');
+    rows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-1px)';
+            this.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.05)';
+        });
+
+        row.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    });
+
+    // Add click handler for checkbox labels
+    const checkboxes = document.querySelectorAll('.attendance-checkbox input[type="checkbox"]');
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            const label = this.nextElementSibling;
+            if (this.checked) {
+                label.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    label.style.transform = 'scale(1)';
+                }, 200);
+            }
+        });
+    });
+});
+
+// Add CSS for spinner animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body><form action="/attendanceaddpost/{{ id }}" method="post">#}
+{#  <div align="center">#}
+{#    <table width="1382" height="212" border="1">#}
+{#      <tr>#}
+{#        <th width="110" height="103">Slno</th>#}
+{#        <th width="180">Student</th>#}
+{#        <th width="145">Course</th>#}
+{#        <th width="145">Roll No</th>#}
+{#        <th width="145">Year</th>#}
+{#        <th width="145">Semester</th>#}
+{#        <th width="145">Number</th>#}
+{#        <th width="145">Email</th>#}
+{#        <th width="164">Attendance</th>#}
+{#      </tr>#}
+{#                {% for i in data %}#}
+{##}
+{#      <tr>#}
+{#        <td>&nbsp;{{ forloop.counter }}</td>#}
+{#        <td>&nbsp;{{ i.name }}</td>#}
+{#        <td>&nbsp;{{ i.COURSE.course_name}}</td>#}
+{#        <td>&nbsp;{{ i.roll_no}}</td>#}
+{#        <td>&nbsp;{{ i.year }}</td>#}
+{#        <td>&nbsp;{{ i.semester }}</td>#}
+{#        <td>{{ i.number }}</td>#}
+{#        <td>{{ i.email }}</td>#}
+{#        <td><label for="attendance"></label><p>#}
+{#<input type="checkbox" name="Attendance" value="{{ i.id }}" id="Attendance_0" />#}
+{#     </td>#}
+{#      </tr>#}
+{#        {% endfor %}#}
+{#  </table>#}
+{#  <input type="submit" value="Submit Attendance"/>#}
+{#    #}
+{#  </div>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

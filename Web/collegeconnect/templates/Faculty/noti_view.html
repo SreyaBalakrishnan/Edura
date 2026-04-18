@@ -1,0 +1,1323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Notifications - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+/* Main Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #8a4fff 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    opacity: 0.9;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Search and Filter Controls */
+.search-filter-container {
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 20px 12px 45px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #475569;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #8a4fff;
+    background: white;
+    box-shadow: 0 5px 15px rgba(138, 79, 255, 0.1);
+}
+
+.search-box svg {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    width: 18px;
+    height: 18px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-group select {
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #475569;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: #8a4fff;
+    background: white;
+    box-shadow: 0 5px 15px rgba(138, 79, 255, 0.1);
+}
+
+.filter-group input[type="date"] {
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #475569;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-group input[type="date"]:focus {
+    outline: none;
+    border-color: #8a4fff;
+    background: white;
+    box-shadow: 0 5px 15px rgba(138, 79, 255, 0.1);
+}
+
+.reset-filters {
+    display: flex;
+    align-items: flex-end;
+}
+
+.reset-btn {
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reset-btn:hover {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    transform: translateY(-2px);
+}
+
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 1px solid #e9ecef;
+}
+
+/* Modern Table */
+.notifications-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.notifications-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.notifications-table th {
+    padding: 18px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notifications-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease;
+}
+
+.notifications-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.notifications-table td {
+    padding: 18px 16px;
+    color: #4a5568;
+    vertical-align: middle;
+}
+
+/* Serial Number */
+.serial-no {
+    font-weight: 600;
+    color: #8a4fff;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* Notification Title */
+.notification-title {
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 15px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* Notification Message */
+.notification-message {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #4a5568;
+    max-width: 400px;
+    word-wrap: break-word;
+}
+
+/* Notification Date */
+.notification-date {
+    font-weight: 600;
+    color: #334155;
+    font-size: 14px;
+}
+
+.date-display {
+    display: flex;
+    gap: 4px;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Notification Status */
+.notification-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 80px;
+}
+
+.status-new {
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    color: #0369a1;
+}
+
+.status-read {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    color: #475569;
+}
+
+.status-important {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+}
+
+.status-info {
+    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+    color: #7e22ce;
+}
+
+/* Priority Indicator */
+.priority-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.priority-high {
+    background: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.priority-medium {
+    background: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+.priority-low {
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+/* Actions */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    cursor: pointer;
+    min-width: 100px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.view-btn {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    color: white;
+}
+
+.view-btn:hover {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.mark-read-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.mark-read-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.delete-btn {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    color: white;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #ed8c91 0%, #e8c1b8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 154, 158, 0.25);
+}
+
+/* Button Icons */
+.action-btn svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.action-btn:hover svg {
+    transform: translateX(2px);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 40px;
+    color: #94a3b8;
+}
+
+.empty-state p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #64748b;
+}
+
+/* No Results Message */
+.no-results {
+    text-align: center;
+    padding: 60px 40px;
+    background: white;
+    display: none;
+}
+
+.no-results p {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+/* Back Link */
+.back-link-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #8a4fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.back-link:hover {
+    background: #f7fafc;
+    border-color: #8a4fff;
+    transform: translateX(-4px);
+}
+
+.back-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .page-header {
+        padding: 24px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    .search-filter-container {
+        padding: 15px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        min-width: 100%;
+    }
+
+    .filter-controls {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .reset-filters {
+        width: 100%;
+    }
+
+    .reset-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .notifications-table {
+        min-width: 800px;
+    }
+
+    .notifications-table th,
+    .notifications-table td {
+        padding: 14px 12px;
+    }
+
+    .action-buttons {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .action-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: 90px;
+    }
+}
+
+/* Hide original table */
+table[width="725"] {
+    display: none;
+}
+
+/* Animation for rows */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notifications-table tbody tr {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+.notifications-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.notifications-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.notifications-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.notifications-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.notifications-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+.notifications-table tbody tr:nth-child(n+6) { animation-delay: 0.6s; }
+
+/* Notification Modal */
+.notification-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #8a4fff 100%);
+    color: white;
+    padding: 24px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-modal:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+    padding: 32px;
+}
+
+.modal-field {
+    margin-bottom: 24px;
+}
+
+.modal-field:last-child {
+    margin-bottom: 0;
+}
+
+.modal-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.modal-value {
+    font-size: 15px;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.modal-notification-content {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    max-height: 300px;
+    overflow-y: auto;
+    line-height: 1.6;
+}
+
+.modal-footer {
+    padding: 20px 32px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-time {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Notifications</h1>
+        <p>View and manage system notifications</p>
+    </div>
+
+    <!-- Search and Filter Controls -->
+    <div class="search-filter-container">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search notifications by title or content...">
+        </div>
+
+        <div class="filter-controls">
+            <div class="filter-group">
+                <label for="dateFilter">Date</label>
+                <input type="date" id="dateFilter">
+            </div>
+
+            <div class="filter-group">
+                <label for="statusFilter">Status</label>
+                <select id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="new">New</option>
+                    <option value="read">Read</option>
+                    <option value="important">Important</option>
+                </select>
+            </div>
+
+            <div class="reset-filters">
+                <button id="resetFilters" class="reset-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18"></path>
+                        <path d="M6 6l12 12"></path>
+                    </svg>
+                    Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Table -->
+    <div class="table-container">
+        {% if data %}
+        <table class="notifications-table" id="notificationsTable">
+            <thead>
+                <tr>
+                    <th width="60">#</th>
+                    <th width="200">Title</th>
+                    <th width="400">Message</th>
+                    <th width="120">Date</th>
+                    <th width="120">Status</th>
+                    <th width="140">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="notificationsTableBody">
+                {% for i in data %}
+                <tr data-title="{{ i.title|lower }}"
+                    data-message="{{ i.message|lower }}"
+                    data-date="{{ i.date|date:'Y-m-d' }}"
+                    data-status="{% cycle 'new' 'new' 'read' 'important' %}">
+                    <td class="serial-no">{{ forloop.counter }}</td>
+                    <td>
+                        <span class="notification-title">
+                            {% if forloop.counter <= 2 %}
+                            <span class="priority-indicator priority-high"></span>
+                            {% elif forloop.counter <= 4 %}
+                            <span class="priority-indicator priority-medium"></span>
+                            {% else %}
+                            <span class="priority-indicator priority-low"></span>
+                            {% endif %}
+                            {{ i.title }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="notification-message">
+                            {{ i.message|truncatechars:100 }}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="notification-date">{{ i.date }}</span>
+                        <div class="date-display">
+                            <span>Sent</span>
+                        </div>
+                    </td>
+                    <td>
+                        {% with status=forloop.counter %}
+                            {% if status <= 2 %}
+                                <span class="notification-status status-new">New</span>
+                            {% elif status <= 4 %}
+                                <span class="notification-status status-info">Info</span>
+                            {% else %}
+                                <span class="notification-status status-read">Read</span>
+                            {% endif %}
+                        {% endwith %}
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button type="button" class="action-btn view-btn view-notification-btn"
+                                    data-title="{{ i.title }}"
+                                    data-message="{{ i.message }}"
+                                    data-date="{{ i.date }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                View
+                            </button>
+                            <button type="button" class="action-btn mark-read-btn mark-read-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                Read
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResultsMessage">
+            <p>No notifications found matching your search criteria.</p>
+            <button id="resetFromNoResults" class="reset-btn" style="margin: 0 auto;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6L6 18"></path>
+                    <path d="M6 6l12 12"></path>
+                </svg>
+                Reset Filters
+            </button>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No notifications found.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Statistics Summary -->
+    <div class="search-filter-container" style="border-radius: 12px; margin-top: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: #8a4fff;">{{ data|length }}</div>
+                    <div style="font-size: 12px; color: #64748b; text-transform: uppercase;">Total</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: #3b82f6;" id="newCount">0</div>
+                    <div style="font-size: 12px; color: #64748b; text-transform: uppercase;">New</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: #10b981;" id="readCount">0</div>
+                    <div style="font-size: 12px; color: #64748b; text-transform: uppercase;">Read</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: #ef4444;" id="importantCount">0</div>
+                    <div style="font-size: 12px; color: #64748b; text-transform: uppercase;">Important</div>
+                </div>
+            </div>
+            <button class="action-btn delete-btn" id="clearAllBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"></path>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Clear All
+            </button>
+        </div>
+    </div>
+
+    <div class="back-link-container">
+        <a href="#" onclick="history.back()" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Notification Modal -->
+<div class="notification-modal" id="notificationModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Notification Details</h3>
+            <button class="close-modal" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-field">
+                <span class="modal-label">Title</span>
+                <span class="modal-value" id="modalTitle"></span>
+            </div>
+            <div class="modal-field">
+                <span class="modal-label">Date & Time</span>
+                <span class="modal-value" id="modalDate"></span>
+            </div>
+            <div class="modal-field">
+                <span class="modal-label">Message</span>
+                <div class="modal-notification-content" id="modalMessage"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="notification-time" id="modalTime"></div>
+            <div class="modal-actions">
+                <button class="action-btn mark-read-btn" id="markAsReadBtn">
+                    Mark as Read
+                </button>
+                <button class="action-btn view-btn" id="closeModalBtn">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Original form (hidden but functional) -->
+<form action="" method="post" style="display: none;">
+  <div align="center">
+    <table width="725" height="163" border="1">
+      <tr>
+        <th height="66">Slno</th>
+        <th>Title</th>
+        <th>Message</th>
+        <th>Date</th>
+      </tr>
+      {% for i in data %}
+      <tr>
+        <td>&nbsp;{{ forloop.counter }}</td>
+        <td>&nbsp;{{ i.title }}</td>
+        <td>&nbsp;{{ i.message }}</td>
+        <td>{{ i.date }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effects to table rows
+    const tableRows = document.querySelectorAll('.notifications-table tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+        });
+
+        row.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    });
+
+    // Update header with notification summary
+    if (tableRows.length > 0) {
+        const header = document.querySelector('.page-header h1');
+        const originalHeader = header.textContent;
+        header.textContent = `${originalHeader} (${tableRows.length})`;
+
+        // Count statuses
+        updateStatusCounts();
+    }
+
+    // Search and Filter Functionality
+    const searchInput = document.getElementById('searchInput');
+    const dateFilter = document.getElementById('dateFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const resetButton = document.getElementById('resetFilters');
+    const resetFromNoResultsButton = document.getElementById('resetFromNoResults');
+    const notificationsTableBody = document.getElementById('notificationsTableBody');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    const originalRows = notificationsTableBody ? Array.from(notificationsTableBody.querySelectorAll('tr')) : [];
+
+    // Notification Modal Elements
+    const notificationModal = document.getElementById('notificationModal');
+    const closeModal = document.getElementById('closeModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDate = document.getElementById('modalDate');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalTime = document.getElementById('modalTime');
+    const markAsReadBtn = document.getElementById('markAsReadBtn');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    // Function to update status counts
+    function updateStatusCounts() {
+        const newCount = document.querySelectorAll('.notification-status.status-new').length;
+        const readCount = document.querySelectorAll('.notification-status.status-read').length;
+        const importantCount = document.querySelectorAll('.notification-status.status-important, .notification-status.status-info').length;
+
+        document.getElementById('newCount').textContent = newCount;
+        document.getElementById('readCount').textContent = readCount;
+        document.getElementById('importantCount').textContent = importantCount;
+    }
+
+    // Function to filter notification records
+    function filterNotificationRecords() {
+        if (!notificationsTableBody) return;
+
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedDate = dateFilter.value;
+        const selectedStatus = statusFilter.value;
+
+        let visibleCount = 0;
+
+        // Reset all rows first
+        originalRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Apply filters
+        originalRows.forEach(row => {
+            const title = row.getAttribute('data-title');
+            const message = row.getAttribute('data-message');
+            const date = row.getAttribute('data-date');
+            const status = row.getAttribute('data-status');
+
+            let matchesSearch = true;
+            let matchesDate = true;
+            let matchesStatus = true;
+
+            // Apply search filter
+            if (searchTerm) {
+                matchesSearch = title.includes(searchTerm) || message.includes(searchTerm);
+            }
+
+            // Apply date filter
+            if (selectedDate) {
+                matchesDate = date === selectedDate;
+            }
+
+            // Apply status filter
+            if (selectedStatus !== 'all') {
+                matchesStatus = status === selectedStatus;
+            }
+
+            // Show or hide row based on filters
+            if (matchesSearch && matchesDate && matchesStatus) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Show/hide no results message
+        if (visibleCount === 0 && originalRows.length > 0) {
+            noResultsMessage.style.display = 'block';
+            notificationsTableBody.style.display = 'none';
+        } else {
+            noResultsMessage.style.display = 'none';
+            notificationsTableBody.style.display = '';
+        }
+
+        // Update serial numbers for visible rows
+        updateSerialNumbers();
+
+        // Update status counts
+        updateStatusCounts();
+    }
+
+    // Function to update serial numbers after filtering
+    function updateSerialNumbers() {
+        if (!notificationsTableBody) return;
+
+        const visibleRows = Array.from(notificationsTableBody.querySelectorAll('tr')).filter(row =>
+            row.style.display !== 'none'
+        );
+
+        visibleRows.forEach((row, index) => {
+            const serialCell = row.querySelector('.serial-no');
+            if (serialCell) {
+                serialCell.textContent = index + 1;
+            }
+        });
+    }
+
+    // Function to reset all filters
+    function resetFilters() {
+        searchInput.value = '';
+        dateFilter.value = '';
+        statusFilter.value = 'all';
+
+        // Reset all rows
+        originalRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Hide no results message
+        noResultsMessage.style.display = 'none';
+        if (notificationsTableBody) {
+            notificationsTableBody.style.display = '';
+        }
+
+        // Reset serial numbers
+        updateSerialNumbers();
+
+        // Update status counts
+        updateStatusCounts();
+    }
+
+    // Function to show notification details in modal
+    function showNotificationDetails(title, message, date) {
+        modalTitle.textContent = title;
+        modalDate.textContent = date;
+        modalMessage.textContent = message;
+
+        // Format time for display
+        const now = new Date();
+        modalTime.textContent = `Received today at ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+        notificationModal.style.display = 'flex';
+    }
+
+    // Function to close modal
+    function closeNotificationModal() {
+        notificationModal.style.display = 'none';
+    }
+
+    // Function to mark notification as read
+    function markAsRead(row) {
+        const statusBadge = row.querySelector('.notification-status');
+        if (statusBadge) {
+            statusBadge.className = 'notification-status status-read';
+            statusBadge.textContent = 'Read';
+            row.setAttribute('data-status', 'read');
+            updateStatusCounts();
+        }
+    }
+
+    // Function to mark all as read
+    function markAllAsRead() {
+        originalRows.forEach(row => {
+            markAsRead(row);
+        });
+
+        // Show success message
+        showToast('All notifications marked as read');
+    }
+
+    // Function to clear all notifications
+    function clearAllNotifications() {
+        if (confirm('Are you sure you want to clear all notifications? This action cannot be undone.')) {
+            originalRows.forEach(row => {
+                row.style.display = 'none';
+            });
+
+            // Update counts
+            document.getElementById('newCount').textContent = '0';
+            document.getElementById('readCount').textContent = '0';
+            document.getElementById('importantCount').textContent = '0';
+
+            // Show empty state
+            notificationsTableBody.style.display = 'none';
+            document.querySelector('.empty-state').style.display = 'block';
+
+            showToast('All notifications cleared');
+        }
+    }
+
+    // Toast notification function
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #8a4fff 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+            animation: slideIn 0.3s ease;
+        `;
+
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // Add CSS for toast animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Event listeners for filtering
+    if (searchInput) {
+        searchInput.addEventListener('input', filterNotificationRecords);
+    }
+
+    if (dateFilter) {
+        dateFilter.addEventListener('change', filterNotificationRecords);
+    }
+
+    if (statusFilter) {
+        statusFilter.addEventListener('change', filterNotificationRecords);
+    }
+
+    if (resetButton) {
+        resetButton.addEventListener('click', resetFilters);
+    }
+
+    if (resetFromNoResultsButton) {
+        resetFromNoResultsButton.addEventListener('click', resetFilters);
+    }
+
+    // Event listeners for modal
+    if (closeModal) {
+        closeModal.addEventListener('click', closeNotificationModal);
+    }
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeNotificationModal);
+    }
+
+    // Close modal when clicking outside
+    notificationModal.addEventListener('click', function(event) {
+        if (event.target === notificationModal) {
+            closeNotificationModal();
+        }
+    });
+
+    // Event listener for mark as read in modal
+    if (markAsReadBtn) {
+        markAsReadBtn.addEventListener('click', function() {
+            const currentRow = document.querySelector('.notifications-table tbody tr[data-title="' + modalTitle.textContent.toLowerCase() + '"]');
+            if (currentRow) {
+                markAsRead(currentRow);
+            }
+            closeNotificationModal();
+            showToast('Notification marked as read');
+        });
+    }
+
+    // Event listener for clear all button
+    if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', clearAllNotifications);
+    }
+
+    // Add event listeners to view buttons
+    const viewButtons = document.querySelectorAll('.view-notification-btn');
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const title = this.getAttribute('data-title');
+            const message = this.getAttribute('data-message');
+            const date = this.getAttribute('data-date');
+            showNotificationDetails(title, message, date);
+        });
+    });
+
+    // Add event listeners to mark as read buttons
+    const markReadButtons = document.querySelectorAll('.mark-read-btn:not(#markAsReadBtn)');
+    markReadButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            markAsRead(row);
+            showToast('Notification marked as read');
+        });
+    });
+
+    // Set today's date as default in date filter
+    const today = new Date().toISOString().split('T')[0];
+    if (dateFilter) {
+        dateFilter.value = today;
+    }
+
+    // Initialize counts
+    updateStatusCounts();
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body><form action="" method="post">#}
+{#  <div align="center">#}
+{#    <table width="725" height="163" border="1">#}
+{#      <tr>#}
+{#        <th height="66">Slno</th>#}
+{#        <th>Title</th>#}
+{#        <th>Message</th>#}
+{#        <th>Date</th>#}
+{#      </tr>#}
+{#                {% for i in data %}#}
+{##}
+{#      <tr>#}
+{#        <td>&nbsp;{{ forloop.counter }}</td>#}
+{#        <td>&nbsp;{{ i.title }}</td>#}
+{#        <td>&nbsp;{{ i.message }}</td>#}
+{#        <td>{{ i.date }}</td>#}
+{#      </tr>#}
+{#        {% endfor %}#}
+{#  </table>#}
+{#  </div>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

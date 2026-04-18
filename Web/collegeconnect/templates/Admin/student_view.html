@@ -1,0 +1,936 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Student Management - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    color: #1e293b;
+    line-height: 1.6;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Main Container */
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 16px 16px 0 0;
+    margin-bottom: 0;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-text h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-text p {
+    opacity: 0.95;
+    font-size: 18px;
+    font-weight: 300;
+    max-width: 500px;
+}
+
+/* Search and Filter Controls */
+.controls-container {
+    background: white;
+    padding: 25px 30px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 14px 20px 14px 50px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #475569;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+}
+
+.search-box svg {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    width: 18px;
+    height: 18px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-group select {
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #475569;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+}
+
+.reset-filters {
+    display: flex;
+    align-items: flex-end;
+}
+
+.reset-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reset-btn:hover {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    transform: translateY(-2px);
+}
+
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Modern Minimal Table */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+}
+
+thead {
+    background: white;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+thead th {
+    padding: 20px 24px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    background: white;
+}
+
+tbody tr {
+    transition: all 0.25s ease;
+    border-bottom: 1px solid #f1f5f9;
+    background: white;
+}
+
+tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+tbody td {
+    padding: 20px 24px;
+    color: #475569;
+    font-weight: 400;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+/* Serial Number Cell */
+td:first-child {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 15px;
+}
+
+/* Student Name Cell */
+td:nth-child(3) {
+    font-weight: 500;
+    color: #334155;
+}
+
+/* Course Name Cell */
+td:nth-child(2) {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+/* Action Buttons Container */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Action Button Styles */
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    cursor: pointer;
+    min-width: 80px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.edit-btn {
+    background: linear-gradient(135deg, #a3bffa 0%, #b794f4 100%);
+    color: white;
+}
+
+.edit-btn:hover {
+    background: linear-gradient(135deg, #93afed 0%, #a683e8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(163, 191, 250, 0.25);
+}
+
+.delete-btn {
+    background: linear-gradient(135deg, #d6bcfa 0%, #fc8181 100%);
+    color: white;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #c5abed 0%, #eb6f6f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(214, 188, 250, 0.25);
+}
+
+/* Button Icons */
+.action-btn svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.action-btn:hover svg {
+    transform: translateX(2px);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 80px 40px;
+    color: #94a3b8;
+    background: white;
+}
+
+.empty-state p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #64748b;
+}
+
+.add-student-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+}
+
+.add-student-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(102, 126, 234, 0.3);
+}
+
+/* No Results Message */
+.no-results {
+    text-align: center;
+    padding: 60px 40px;
+    background: white;
+    display: none;
+}
+
+.no-results p {
+    font-size: 18px;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+/* Footer */
+.page-footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.back-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.back-link:hover {
+    color: #764ba2;
+    gap: 12px;
+    border-color: #667eea;
+    transform: translateX(-4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 15px;
+    }
+
+    .page-header {
+        padding: 30px 25px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+
+    .header-text h1 {
+        font-size: 28px;
+    }
+
+    .header-text p {
+        font-size: 16px;
+    }
+
+    .controls-container {
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        min-width: 100%;
+    }
+
+    .filter-controls {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .reset-filters {
+        width: 100%;
+    }
+
+    .reset-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        border-radius: 0 0 12px 12px;
+    }
+
+    table {
+        min-width: 1200px;
+    }
+
+    thead th {
+        padding: 16px 20px;
+    }
+
+    tbody td {
+        padding: 16px 20px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Hide original table */
+table[width="1219"] {
+    display: none;
+}
+
+/* Animation for rows */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+tbody tr {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+tbody tr:nth-child(1) { animation-delay: 0.1s; }
+tbody tr:nth-child(2) { animation-delay: 0.2s; }
+tbody tr:nth-child(3) { animation-delay: 0.3s; }
+tbody tr:nth-child(4) { animation-delay: 0.4s; }
+tbody tr:nth-child(5) { animation-delay: 0.5s; }
+tbody tr:nth-child(n+6) { animation-delay: 0.6s; }
+</style>
+</head>
+
+<body>
+<div class="main-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-text">
+                <h1>Student Management</h1>
+                <p>Manage all student records and information</p>
+            </div>
+            <a href="/Admin_view_course" class="add-student-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+                Back to Courses
+            </a>
+        </div>
+    </div>
+
+    <!-- Search and Filter Controls -->
+    <div class="controls-container">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search students by name, roll number, or email...">
+        </div>
+
+        <div class="filter-controls">
+            <div class="filter-group">
+                <label for="courseFilter">Course</label>
+                <select id="courseFilter">
+                    <option value="all">All Courses</option>
+                    {% for course in course_list %}
+                    <option value="{{ course.course_name }}">{{ course.course_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="semesterFilter">Semester</label>
+                <select id="semesterFilter">
+                    <option value="all">All Semesters</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                </select>
+            </div>
+
+            <div class="reset-filters">
+                <button id="resetFilters" class="reset-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                    Reset Filters
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Students Table -->
+    <div class="table-container">
+        {% if data %}
+        <table id="studentsTable">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Course</th>
+                    <th>Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Year</th>
+                    <th>Semester</th>
+                    <th>Contact Number</th>
+                    <th>Email Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+                {% for i in data %}
+                <tr data-course="{{ i.COURSE.course_name }}" data-semester="{{ i.semester }}"
+                    data-name="{{ i.name }}" data-roll="{{ i.roll_no }}" data-email="{{ i.email }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.COURSE.course_name }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.roll_no }}</td>
+                    <td>{{ i.year }}</td>
+                    <td>{{ i.semester }}</td>
+                    <td>{{ i.number }}</td>
+                    <td>{{ i.email }}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="/Admin_edit_student/{{ i.id }}" class="action-btn edit-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                                Edit
+                            </a>
+                            <a href="/studentdltpost/{{ i.id }}" class="action-btn delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this student?')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResultsMessage">
+            <p>No students match your search criteria. Try adjusting your filters or search term.</p>
+            <button id="resetFromNoResults" class="reset-btn" style="margin: 0 auto;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                </svg>
+                Reset Filters
+            </button>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No students found. Add your first student to get started.</p>
+            <a href="/Admin_view_course" class="add-student-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14"></path>
+                    <path d="M5 12h14"></path>
+                </svg>
+                Back to Courses
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="page-footer">
+        <a href="#" onclick="history.back()" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Original table form (hidden but functional) -->
+<form id="form1" name="form1" method="post" action="" style="display: none;">
+  <table width="1219" height="178" border="1">
+    <tr>
+      <th height="65">Slno</th>
+        <th>Course</th>
+      <th>Name</th>
+      <th>Roll Number</th>
+      <th>Year</th>
+      <th>Semester</th>
+      <th>Number</th>
+      <th>Email</th>
+      <th>Action</th>
+    </tr>
+      {% for i in data %}
+
+    <tr>
+      <td>{{ forloop.counter }}&nbsp;</td>
+        <td>{{i.COURSE.course_name}}</td>
+      <td>&nbsp;{{ i.name }}</td>
+      <td>&nbsp;{{ i.roll_no }}</td>
+      <td>&nbsp;{{ i.year }}</td>
+      <td>&nbsp;{{ i.semester }}</td>
+      <td>&nbsp;{{ i.number }}</td>
+      <td>&nbsp;{{ i.email }}</td>
+      <td><p><a href="/Admin_edit_student/{{ i.id }}">Edit</a></p>
+      <p><a href="/studentdltpost/{{ i.id }}">Delete</a></p></td>
+    </tr>
+      {% endfor %}
+  </table>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Confirmation for delete actions
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('Are you sure you want to delete this student? This action cannot be undone.')) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    // Add smooth hover effect to table rows
+    const tableRows = document.querySelectorAll('tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.08)';
+        });
+
+        row.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    });
+
+    // Add subtle animation to header on load
+    const header = document.querySelector('.page-header');
+    header.style.opacity = '0';
+    header.style.transform = 'translateY(-20px)';
+
+    setTimeout(() => {
+        header.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        header.style.opacity = '1';
+        header.style.transform = 'translateY(0)';
+    }, 100);
+
+    // Search and Filter Functionality
+    const searchInput = document.getElementById('searchInput');
+    const courseFilter = document.getElementById('courseFilter');
+    const semesterFilter = document.getElementById('semesterFilter');
+    const resetButton = document.getElementById('resetFilters');
+    const resetFromNoResultsButton = document.getElementById('resetFromNoResults');
+    const studentsTableBody = document.getElementById('studentsTableBody');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    const originalRows = studentsTableBody ? Array.from(studentsTableBody.querySelectorAll('tr')) : [];
+
+    // Function to filter students
+    function filterStudents() {
+        if (!studentsTableBody) return;
+
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedCourse = courseFilter.value;
+        const selectedSemester = semesterFilter.value;
+
+        let visibleCount = 0;
+
+        // Reset all rows first
+        originalRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Apply filters
+        originalRows.forEach(row => {
+            const course = row.getAttribute('data-course');
+            const semester = row.getAttribute('data-semester');
+            const name = row.getAttribute('data-name').toLowerCase();
+            const roll = row.getAttribute('data-roll').toLowerCase();
+            const email = row.getAttribute('data-email').toLowerCase();
+
+            let matchesSearch = true;
+            let matchesCourse = true;
+            let matchesSemester = true;
+
+            // Apply search filter
+            if (searchTerm) {
+                matchesSearch = name.includes(searchTerm) ||
+                               roll.includes(searchTerm) ||
+                               email.includes(searchTerm);
+            }
+
+            // Apply course filter
+            if (selectedCourse !== 'all') {
+                matchesCourse = course === selectedCourse;
+            }
+
+            // Apply semester filter
+            if (selectedSemester !== 'all') {
+                matchesSemester = semester === selectedSemester;
+            }
+
+            // Show or hide row based on filters
+            if (matchesSearch && matchesCourse && matchesSemester) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Show/hide no results message
+        if (visibleCount === 0 && originalRows.length > 0) {
+            noResultsMessage.style.display = 'block';
+            studentsTableBody.style.display = 'none';
+        } else {
+            noResultsMessage.style.display = 'none';
+            studentsTableBody.style.display = '';
+        }
+
+        // Update serial numbers for visible rows
+        updateSerialNumbers();
+    }
+
+    // Function to update serial numbers after filtering
+    function updateSerialNumbers() {
+        if (!studentsTableBody) return;
+
+        const visibleRows = Array.from(studentsTableBody.querySelectorAll('tr')).filter(row =>
+            row.style.display !== 'none'
+        );
+
+        visibleRows.forEach((row, index) => {
+            const serialCell = row.querySelector('td:first-child');
+            if (serialCell) {
+                serialCell.textContent = index + 1;
+            }
+        });
+    }
+
+    // Function to reset all filters
+    function resetFilters() {
+        searchInput.value = '';
+        courseFilter.value = 'all';
+        semesterFilter.value = 'all';
+
+        // Reset all rows
+        originalRows.forEach(row => {
+            row.style.display = '';
+        });
+
+        // Hide no results message
+        noResultsMessage.style.display = 'none';
+        if (studentsTableBody) {
+            studentsTableBody.style.display = '';
+        }
+
+        // Reset serial numbers
+        updateSerialNumbers();
+    }
+
+    // Event listeners for filtering
+    if (searchInput) {
+        searchInput.addEventListener('input', filterStudents);
+    }
+
+    if (courseFilter) {
+        courseFilter.addEventListener('change', filterStudents);
+    }
+
+    if (semesterFilter) {
+        semesterFilter.addEventListener('change', filterStudents);
+    }
+
+    if (resetButton) {
+        resetButton.addEventListener('click', resetFilters);
+    }
+
+    if (resetFromNoResultsButton) {
+        resetFromNoResultsButton.addEventListener('click', resetFilters);
+    }
+
+    // Extract unique course names for the filter dropdown (if not already provided by Django)
+    function populateCourseFilter() {
+        if (!studentsTableBody) return;
+
+        const courseOptions = courseFilter.querySelectorAll('option');
+
+        // Only populate if we have only the "All Courses" option
+        if (courseOptions.length <= 1) {
+            const courses = new Set();
+            originalRows.forEach(row => {
+                const course = row.getAttribute('data-course');
+                if (course) {
+                    courses.add(course);
+                }
+            });
+
+            // Add courses to dropdown
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course;
+                option.textContent = course;
+                courseFilter.appendChild(option);
+            });
+        }
+    }
+
+    // Populate course filter on load
+    populateCourseFilter();
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="">#}
+{#  <table width="1219" height="178" border="1">#}
+{#    <tr>#}
+{#      <th height="65">Slno</th>#}
+{#        <th>Course</th>#}
+{#      <th>Name</th>#}
+{#      <th>Roll Number</th>#}
+{#      <th>Year</th>#}
+{#      <th>Semester</th>#}
+{#      <th>Number</th>#}
+{#      <th>Email</th>#}
+{#      <th>Action</th>#}
+{#    </tr>#}
+{#      {% for i in data %}#}
+{##}
+{#    <tr>#}
+{#      <td>{{ forloop.counter }}&nbsp;</td>#}
+{#        <td>{{i.COURSE.course_name}}</td>#}
+{#      <td>&nbsp;{{ i.name }}</td>#}
+{#      <td>&nbsp;{{ i.roll_no }}</td>#}
+{#      <td>&nbsp;{{ i.year }}</td>#}
+{#      <td>&nbsp;{{ i.semester }}</td>#}
+{#      <td>&nbsp;{{ i.number }}</td>#}
+{#      <td>&nbsp;{{ i.email }}</td>#}
+{#      <td><p><a href="/Admin_edit_student/{{ i.id }}">Edit</a></p>#}
+{#      <p><a href="/studentdltpost/{{ i.id }}">Delete</a></p></td>#}
+{#    </tr>#}
+{#      {% endfor %}#}
+{#  </table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

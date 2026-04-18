@@ -1,0 +1,567 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Event Participants - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+/* Main Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    opacity: 0.9;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 1px solid #e9ecef;
+}
+
+/* Modern Table */
+.participants-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.participants-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.participants-table th {
+    padding: 18px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.participants-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease;
+}
+
+.participants-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.participants-table td {
+    padding: 18px 16px;
+    color: #4a5568;
+    vertical-align: middle;
+}
+
+/* Serial Number */
+.serial-no {
+    font-weight: 600;
+    color: #667eea;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* Event Info */
+.event-info {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.event-date {
+    display: block;
+    font-size: 12px;
+    color: #718096;
+    margin-top: 4px;
+}
+
+/* Student Info */
+.student-info {
+    font-size: 14px;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+.student-name {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 15px;
+    display: block;
+}
+
+.student-id {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+    display: block;
+}
+
+/* Course & Department Info */
+.course-department-info {
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.course-name {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.department-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 100px;
+}
+
+.department-cse {
+    background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
+    color: #1e40af;
+}
+
+.department-eee {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+}
+
+.department-mech {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+}
+
+.department-civil {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #065f46;
+}
+
+.department-ece {
+    background: linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 100%);
+    color: #6b21a8;
+}
+
+.department-other {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #64748b;
+}
+
+/* Year Badge */
+.year-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #f1f5f9;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 40px;
+    color: #94a3b8;
+}
+
+.empty-state p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #64748b;
+}
+
+/* Back Link */
+.back-link-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.back-link:hover {
+    background: #f7fafc;
+    border-color: #667eea;
+    transform: translateX(-4px);
+}
+
+.back-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .page-header {
+        padding: 24px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .participants-table {
+        min-width: 1000px;
+    }
+
+    .participants-table th,
+    .participants-table td {
+        padding: 14px 12px;
+    }
+}
+
+/* Hide original form table */
+#form1 table {
+    display: none;
+}
+
+/* Animation for rows */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.participants-table tbody tr {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+.participants-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.participants-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.participants-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.participants-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.participants-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+.participants-table tbody tr:nth-child(n+6) { animation-delay: 0.6s; }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Event Participants</h1>
+        <p>View and manage participants for college events</p>
+    </div>
+
+    <!-- Participants Table -->
+    <div class="table-container">
+        {% if data %}
+        <table class="participants-table">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Event Details</th>
+                    <th>Student Information</th>
+                    <th>Course & Department</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td class="serial-no">{{ forloop.counter }}</td>
+                    <td>
+                        <span class="event-info">{{ i.EVENT.title }}</span>
+                        <span class="event-date">
+                            {% if i.EVENT.event_date %}
+                                {{ i.EVENT.event_date }}
+                            {% else %}
+                                Date not specified
+                            {% endif %}
+                            {% if i.EVENT.location %}
+                                 • {{ i.EVENT.location }}
+                            {% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="student-name">{{ i.STUDENT.name }}</span>
+                        <span class="student-id">
+                            ID: {{ i.STUDENT.id }}
+                            {% if i.STUDENT.roll_no %}
+                                 • Roll: {{ i.STUDENT.roll_no }}
+                            {% endif %}
+                        </span>
+                        {% if i.STUDENT.year and i.STUDENT.semester %}
+                        <span class="year-badge">
+                            Year {{ i.STUDENT.year }} • Semester {{ i.STUDENT.semester }}
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="course-department-info">
+                        <span class="course-name">{{ i.STUDENT.COURSE.course_name }}</span>
+                        {% if i.STUDENT.COURSE.department %}
+                            {% with dept=i.STUDENT.COURSE.department|lower %}
+                                {% if "cse" in dept or "computer" in dept %}
+                                    <span class="department-badge department-cse">Computer Science & Engineering</span>
+                                {% elif "eee" in dept or "electrical" in dept %}
+                                    <span class="department-badge department-eee">Electrical & Electronics Engineering</span>
+                                {% elif "mech" in dept or "mechanical" in dept %}
+                                    <span class="department-badge department-mech">Mechanical Engineering</span>
+                                {% elif "civil" in dept %}
+                                    <span class="department-badge department-civil">Civil Engineering</span>
+                                {% elif "ece" in dept or "electronics" in dept %}
+                                    <span class="department-badge department-ece">Electronics & Communication Engineering</span>
+                                {% else %}
+                                    <span class="department-badge department-other">{{ i.STUDENT.COURSE.department }}</span>
+                                {% endif %}
+                            {% endwith %}
+                        {% else %}
+                            <span class="department-badge department-other">Department not specified</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <p>No participants found for this event.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="back-link-container">
+        <a href="/Faculty_view_event" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Events
+        </a>
+        <a href="#" onclick="history.back()" class="back-link" style="margin-left: 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Original form (hidden but functional) -->
+<form id="form1" name="form1" method="post" action="" style="display: none;">
+  <div align="center">
+    <table width="724" height="149" border="1">
+      <tr>
+        <th>Slno</th>
+        <th>Event</th>
+        <th>Student</th>
+        <th>Student Course</th>
+      </tr>
+      {% for i in data %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>&nbsp;{{ i.EVENT.title }}</td>
+        <td>{{ i.STUDENT.name }}</td>
+        <td>{{ i.STUDENT.COURSE.course_name }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effects to table rows
+    const tableRows = document.querySelectorAll('.participants-table tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+        });
+
+        row.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    });
+
+    // Count participants by department
+    const departmentBadges = document.querySelectorAll('.department-badge');
+    let cseCount = 0;
+    let eeeCount = 0;
+    let mechCount = 0;
+    let civilCount = 0;
+    let eceCount = 0;
+    let otherCount = 0;
+
+    departmentBadges.forEach(badge => {
+        if (badge.classList.contains('department-cse')) cseCount++;
+        else if (badge.classList.contains('department-eee')) eeeCount++;
+        else if (badge.classList.contains('department-mech')) mechCount++;
+        else if (badge.classList.contains('department-civil')) civilCount++;
+        else if (badge.classList.contains('department-ece')) eceCount++;
+        else if (badge.classList.contains('department-other')) otherCount++;
+    });
+
+    // Update header with statistics
+    const totalParticipants = tableRows.length;
+    if (totalParticipants > 0) {
+        const header = document.querySelector('.page-header h1');
+        const originalHeader = header.textContent;
+        header.textContent = `${originalHeader} (${totalParticipants} Participants)`;
+
+        const subtitle = document.querySelector('.page-header p');
+        let statsText = '';
+
+        if (cseCount > 0) statsText += `CSE: ${cseCount} • `;
+        if (eeeCount > 0) statsText += `EEE: ${eeeCount} • `;
+        if (mechCount > 0) statsText += `MECH: ${mechCount} • `;
+        if (civilCount > 0) statsText += `CIVIL: ${civilCount} • `;
+        if (eceCount > 0) statsText += `ECE: ${eceCount} • `;
+        if (otherCount > 0) statsText += `Others: ${otherCount} • `;
+
+        // Remove trailing " • "
+        if (statsText.endsWith(' • ')) {
+            statsText = statsText.slice(0, -3);
+        }
+
+        if (statsText) {
+            subtitle.textContent = statsText;
+        } else {
+            subtitle.textContent = 'View participant details below';
+        }
+    }
+
+    // Add department color coding to rows based on department badge
+    tableRows.forEach(row => {
+        const departmentBadge = row.querySelector('.department-badge');
+        if (departmentBadge) {
+            if (departmentBadge.classList.contains('department-cse')) {
+                row.style.borderLeft = '4px solid #3b82f6';
+            } else if (departmentBadge.classList.contains('department-eee')) {
+                row.style.borderLeft = '4px solid #f59e0b';
+            } else if (departmentBadge.classList.contains('department-mech')) {
+                row.style.borderLeft = '4px solid #ef4444';
+            } else if (departmentBadge.classList.contains('department-civil')) {
+                row.style.borderLeft = '4px solid #10b981';
+            } else if (departmentBadge.classList.contains('department-ece')) {
+                row.style.borderLeft = '4px solid #8b5cf6';
+            } else if (departmentBadge.classList.contains('department-other')) {
+                row.style.borderLeft = '4px solid #94a3b8';
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="">#}
+{#  <div align="center">#}
+{#    <table width="724" height="149" border="1">#}
+{#      <tr>#}
+{#        <th>Slno</th>#}
+{#        <th>Event</th>#}
+{#        <th>Student</th>#}
+{#        <th>Student Course</th>#}
+{#      </tr>#}
+{#                {% for i in data %}#}
+{##}
+{#      <tr>#}
+{#        <td>{{ forloop.counter }}</td>#}
+{#        <td>&nbsp;{{ i.EVENT.title }}</td>#}
+{#        <td>{{ i.STUDENT.name }}</td>#}
+{#        <td>{{ i.STUDENT.COURSE.course_name }}</td>#}
+{#      </tr>#}
+{#                    {% endfor %}#}
+{#    </table>#}
+{#  </div>#}
+{#</form>.#}
+{#</body>#}
+{#</html>#}

@@ -1,0 +1,562 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Events - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+/* Main Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    opacity: 0.9;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 1px solid #e9ecef;
+}
+
+/* Modern Table */
+.events-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.events-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.events-table th {
+    padding: 18px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.events-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease;
+}
+
+.events-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.events-table td {
+    padding: 18px 16px;
+    color: #4a5568;
+    vertical-align: middle;
+}
+
+/* Serial Number */
+.serial-no {
+    font-weight: 600;
+    color: #667eea;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* Event Title */
+.event-title {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* Event Description */
+.event-description {
+    font-size: 13px;
+    color: #4a5568;
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+/* Date Display */
+.date-display {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.date-label {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Location Info */
+.location-info {
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.location-icon {
+    color: #667eea;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 80px;
+}
+
+.status-upcoming {
+    background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
+    color: #1e40af;
+}
+
+.status-ongoing {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #065f46;
+}
+
+.status-completed {
+    background: linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 100%);
+    color: #6b21a8;
+}
+
+.status-cancelled {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+}
+
+/* Action Button */
+.action-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    min-width: 120px;
+    height: 36px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.action-btn:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+}
+
+/* Button Icon */
+.action-btn svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.action-btn:hover svg {
+    transform: translateX(2px);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 40px;
+    color: #94a3b8;
+}
+
+.empty-state p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #64748b;
+}
+
+/* Back Link */
+.back-link-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.back-link:hover {
+    background: #f7fafc;
+    border-color: #667eea;
+    transform: translateX(-4px);
+}
+
+.back-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .page-header {
+        padding: 24px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .events-table {
+        min-width: 1000px;
+    }
+
+    .events-table th,
+    .events-table td {
+        padding: 14px 12px;
+    }
+
+    .action-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+        min-width: 110px;
+    }
+}
+
+/* Hide original form table */
+form[action=""] table {
+    display: none;
+}
+
+/* Animation for rows */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.events-table tbody tr {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+.events-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.events-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.events-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.events-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.events-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+.events-table tbody tr:nth-child(n+6) { animation-delay: 0.6s; }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>College Events</h1>
+        <p>View and manage upcoming and past events</p>
+    </div>
+
+    <!-- Events Table -->
+    <div class="table-container">
+        {% if data %}
+        <table class="events-table">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Event Title</th>
+                    <th>Description</th>
+                    <th>Event Date</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Participants</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td class="serial-no">{{ forloop.counter }}</td>
+                    <td>
+                        <span class="event-title">{{ i.title }}</span>
+                    </td>
+                    <td>
+                        <span class="event-description">{{ i.description|truncatechars:100 }}</span>
+                    </td>
+                    <td>
+                        <span class="date-display">{{ i.event_date }}</span>
+                        <span class="date-label">Event Date</span>
+                    </td>
+                    <td>
+                        <span class="location-info">
+                            <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            {{ i.location }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if i.status == "upcoming" or i.status == "Upcoming" %}
+                            <span class="status-badge status-upcoming">Upcoming</span>
+                        {% elif i.status == "ongoing" or i.status == "Ongoing" %}
+                            <span class="status-badge status-ongoing">Ongoing</span>
+                        {% elif i.status == "completed" or i.status == "Completed" %}
+                            <span class="status-badge status-completed">Completed</span>
+                        {% elif i.status == "cancelled" or i.status == "Cancelled" %}
+                            <span class="status-badge status-cancelled">Cancelled</span>
+                        {% else %}
+                            <span class="status-badge status-upcoming">{{ i.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/Faculty_view_participants" class="action-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            View Participants
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <p>No events found. Create your first event to get started.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="back-link-container">
+        <!-- Changed from onclick="history.back()" to direct link -->
+        <a href="/Faculty_dashboard" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Original form (hidden but functional) -->
+<form action="" method="post" style="display: none;">
+    <table width="1120" height="185" border="1">
+        <tr>
+            <th width="105" height="71">Slno</th>
+            <th width="111">Title</th>
+            <th width="108">Description</th>
+            <th width="108">Event Date</th>
+            <th width="108">Location</th>
+            <th width="108">Status</th>
+            <th width="111">Participants</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>&nbsp;{{ forloop.counter }}</td>
+            <td>&nbsp;{{ i.title }}</td>
+            <td>&nbsp;{{ i.description }}</td>
+            <td>&nbsp;{{ i.event_date}}</td>
+            <td>&nbsp;{{ i.location }}</td>
+            <td>{{ i.status }}</td>
+            <td><a href="/Faculty_view_participants">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effects to table rows
+    const tableRows = document.querySelectorAll('.events-table tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+        });
+
+        row.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    });
+
+    // Calculate and update summary statistics
+    const eventsRows = document.querySelectorAll('.events-table tbody tr');
+    let totalEvents = eventsRows.length;
+    let upcomingCount = 0;
+    let ongoingCount = 0;
+    let completedCount = 0;
+    let cancelledCount = 0;
+
+    eventsRows.forEach(row => {
+        const statusBadge = row.querySelector('.status-badge');
+
+        if (statusBadge) {
+            if (statusBadge.classList.contains('status-upcoming')) upcomingCount++;
+            else if (statusBadge.classList.contains('status-ongoing')) ongoingCount++;
+            else if (statusBadge.classList.contains('status-completed')) completedCount++;
+            else if (statusBadge.classList.contains('status-cancelled')) cancelledCount++;
+        }
+    });
+
+    // Update header with statistics
+    if (totalEvents > 0) {
+        const header = document.querySelector('.page-header h1');
+        const originalHeader = header.textContent;
+        header.textContent = `${originalHeader} (${totalEvents} Events)`;
+
+        const subtitle = document.querySelector('.page-header p');
+        subtitle.textContent = `Upcoming: ${upcomingCount} • Ongoing: ${ongoingCount} • Completed: ${completedCount} • Cancelled: ${cancelledCount}`;
+    }
+
+    // Format dates if they're in ISO format
+    const dateCells = document.querySelectorAll('.date-display');
+    dateCells.forEach(cell => {
+        const dateText = cell.textContent.trim();
+        if (dateText.includes('-')) {
+            try {
+                const date = new Date(dateText);
+                if (!isNaN(date.getTime())) {
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    cell.textContent = date.toLocaleDateString('en-US', options);
+                }
+            } catch (e) {
+                // Keep original format if parsing fails
+                console.log('Date parsing error:', e);
+            }
+        }
+    });
+
+    // Add click effect to action buttons
+    const actionButtons = document.querySelectorAll('.action-btn');
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="">#}
+{#  <div align="center">#}
+{#    <table width="724" height="149" border="1">#}
+{#      <tr>#}
+{#        <th>Slno</th>#}
+{#        <th>Event</th>#}
+{#        <th>Student</th>#}
+{#        <th>Student Course</th>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <td>&nbsp;</td>#}
+{#        <td>&nbsp;</td>#}
+{#        <td>&nbsp;</td>#}
+{#        <td>&nbsp;</td>#}
+{#      </tr>#}
+{#    </table>#}
+{#  </div>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

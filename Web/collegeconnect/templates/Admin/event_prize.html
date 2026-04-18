@@ -1,0 +1,610 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Publish Event Results - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #333;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.form-header {
+    padding: 30px;
+    text-align: center;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.form-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: #718096;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.event-id {
+    display: inline-block;
+    background: #667eea;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+form {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #2d3748;
+    background: #fafbfc;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-select option {
+    padding: 10px;
+    font-size: 14px;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 20px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #f7fafc;
+    gap: 8px;
+}
+
+.back-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Prize indicator styles */
+.prize-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0 25px;
+    gap: 15px;
+}
+
+.prize-dot {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.prize-dot.first {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3);
+}
+
+.prize-dot.second {
+    background: linear-gradient(135deg, #C0C0C0 0%, #A9A9A9 100%);
+    box-shadow: 0 4px 10px rgba(169, 169, 169, 0.3);
+}
+
+.prize-dot.third {
+    background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+    box-shadow: 0 4px 10px rgba(205, 127, 50, 0.3);
+}
+
+.prize-dot.active {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.prize-dot::after {
+    content: attr(data-prize);
+    position: absolute;
+    top: 70px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #4a5568;
+    white-space: nowrap;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Alert styles */
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-left: 4px solid #10B981;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+.custom-alert.show {
+    transform: translateX(0);
+}
+
+.alert-success {
+    border-left-color: #10B981;
+}
+
+.alert-error {
+    border-left-color: #EF4444;
+}
+
+.alert-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.alert-success .alert-icon {
+    background: #D1FAE5;
+    color: #10B981;
+}
+
+.alert-error .alert-icon {
+    background: #FEE2E2;
+    color: #EF4444;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+    margin-bottom: 4px;
+}
+
+.alert-content p {
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .form-container {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+
+    .form-header {
+        padding: 25px 20px;
+    }
+
+    .form-header h1 {
+        font-size: 20px;
+    }
+
+    form {
+        padding: 25px;
+    }
+
+    .prize-indicator {
+        gap: 10px;
+    }
+
+    .prize-dot {
+        width: 50px;
+        height: 50px;
+        font-size: 12px;
+    }
+
+    .custom-alert {
+        left: 20px;
+        right: 20px;
+        max-width: calc(100% - 40px);
+    }
+}
+
+/* Hide original table */
+table[width="329"] {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+<!-- Custom Alert Container -->
+<div id="alertContainer"></div>
+
+<div class="form-container">
+    <div class="form-header">
+        <h1 style="font-weight: 800">Publish Event Results</h1>
+        <p>Select the winning prize position for this event</p>
+        <div class="event-id">Event ID: {{ id }}</div>
+    </div>
+
+    <!-- Modern Form Design -->
+    <form id="modernForm" method="post" action="/eventprizepost/{{ id }}">
+        {% csrf_token %}
+        <div class="prize-indicator">
+            <div class="prize-dot first active" data-prize="First" onclick="selectPrize('first')">
+                1st
+            </div>
+            <div class="prize-dot second" data-prize="Second" onclick="selectPrize('second')">
+                2nd
+            </div>
+            <div class="prize-dot third" data-prize="Third" onclick="selectPrize('third')">
+                3rd
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="select">Select Prize Position</label>
+            <select name="select" id="select" class="form-select" required>
+                <option value="first">First Prize</option>
+                <option value="second">Second Prize</option>
+                <option value="third">Third Prize</option>
+            </select>
+        </div>
+
+        <button type="submit" name="button" id="button" class="submit-btn">
+            Publish Results
+        </button>
+
+        <a href="#" onclick="history.back()" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Event
+        </a>
+    </form>
+</div>
+
+<!-- Original form (hidden but functional) -->
+<form action="/eventprizepost/{{ id }}" method="post" style="display: none;">
+  {% csrf_token %}
+  <div align="center">
+    <table width="329" height="143" border="1">
+      <tr>
+        <th>Prize</th>
+        <td><label for="select"></label>
+          <select name="select" id="select2">
+            <option>first</option>
+            <option>second</option>
+            <option>third</option>
+        </select></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div align="center">
+          <input type="submit" name="button" id="button2" value="Publish" />
+        </div></td>
+      </tr>
+  </table>
+  </div>
+</form>
+
+<script>
+// Custom Alert Function
+function showAlert(message, type = 'success') {
+    const alertContainer = document.getElementById('alertContainer');
+
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `custom-alert alert-${type}`;
+    alertDiv.innerHTML = `
+        <div class="alert-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <div class="alert-content">
+            <h4>${type === 'success' ? 'Success!' : 'Error!'}</h4>
+            <p>${message}</p>
+        </div>
+    `;
+
+    alertContainer.appendChild(alertDiv);
+
+    // Show alert
+    setTimeout(() => {
+        alertDiv.classList.add('show');
+    }, 10);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        alertDiv.classList.remove('show');
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.parentNode.removeChild(alertDiv);
+            }
+        }, 300);
+    }, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on select
+    const selectInput = document.getElementById('select');
+    selectInput.focus();
+
+    // Initialize prize indicator based on current selection
+    const currentPrize = selectInput.value;
+    selectPrize(currentPrize);
+
+    // Form submission handling
+    const form = document.getElementById('modernForm');
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const prize = document.getElementById('select').value;
+
+        if (!prize) {
+            showAlert('Please select a prize position.', 'error');
+            return;
+        }
+
+        // Add loading state to button
+        const submitBtn = document.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Publishing...';
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        try {
+            // Create form data
+            const formData = new FormData(form);
+
+            // Send the request
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            const result = await response.text();
+
+            // Check if the response indicates success
+            if (response.ok) {
+                showAlert('Event results published successfully!', 'success');
+
+                // Also submit the hidden form to ensure backend processing
+                setTimeout(() => {
+                    document.querySelector('form[style*="display: none"]').submit();
+                }, 1000);
+            } else {
+                throw new Error('Failed to publish results');
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('Failed to publish results. Please try again.', 'error');
+
+            // Fallback: submit the hidden form directly
+            setTimeout(() => {
+                document.querySelector('form[style*="display: none"]').submit();
+            }, 500);
+
+        } finally {
+            // Reset button state
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+    });
+
+    // Also submit the hidden form when the modern form submits (as backup)
+    form.addEventListener('submit', function() {
+        // Update hidden form select
+        const hiddenSelect = document.querySelector('form[style*="display: none"] select');
+        hiddenSelect.value = document.getElementById('select').value;
+    });
+});
+
+function selectPrize(value) {
+    // Update select element
+    const selectInput = document.getElementById('select');
+    selectInput.value = value;
+
+    // Update hidden form select
+    const hiddenSelect = document.querySelector('form[style*="display: none"] select');
+    hiddenSelect.value = value;
+
+    // Update visual indicators
+    const prizeDots = document.querySelectorAll('.prize-dot');
+    prizeDots.forEach(dot => {
+        dot.classList.remove('active');
+        if (dot.classList.contains(value)) {
+            dot.classList.add('active');
+        }
+    });
+}
+
+// Add focus animation to form select
+const selectElement = document.querySelector('.form-select');
+selectElement.addEventListener('focus', function() {
+    this.parentElement.style.transform = 'translateY(-1px)';
+});
+
+selectElement.addEventListener('blur', function() {
+    this.parentElement.style.transform = 'translateY(0)';
+});
+
+// Sync select changes with visual indicator
+selectElement.addEventListener('change', function() {
+    selectPrize(this.value);
+});
+
+// Debug: Log form submission data
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function() {
+        const formData = new FormData(this);
+        console.log('Form submitted with:', {
+            select: formData.get('select'),
+            csrfmiddlewaretoken: formData.get('csrfmiddlewaretoken')
+        });
+    });
+});
+</script>
+</body>
+</html>
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body><form action="/eventprizepost/{{ id }}" method="post">#}
+{#  <div align="center">#}
+{#    <table width="329" height="143" border="1">#}
+{#      <tr>#}
+{#        <th>Prize</th>#}
+{#        <td><label for="select"></label>#}
+{#          <select name="select" id="select">#}
+{#            <option>first</option>#}
+{#            <option>second</option>#}
+{#            <option>third</option>#}
+{#        </select></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <td colspan="2"><div align="center">#}
+{#          <input type="submit" name="button" id="button" value="Publish" />#}
+{#        </div></td>#}
+{#      </tr>#}
+{#  </table>#}
+{#  </div>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

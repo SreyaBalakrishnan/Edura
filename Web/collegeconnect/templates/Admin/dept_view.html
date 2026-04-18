@@ -1,0 +1,813 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Department Management - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    color: #1e293b;
+    line-height: 1.6;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Main Container */
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 16px 16px 0 0;
+    margin-bottom: 0;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-text h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-text p {
+    opacity: 0.95;
+    font-size: 18px;
+    font-weight: 300;
+    max-width: 500px;
+}
+
+/* Search Bar */
+.search-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-icon {
+    color: white;
+    opacity: 0.9;
+}
+
+.search-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 16px;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: white;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.clear-search-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.clear-search-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.search-info {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 300;
+}
+
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Modern Minimal Table */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+}
+
+thead {
+    background: white;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+thead th {
+    padding: 20px 24px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    background: white;
+}
+
+tbody tr {
+    transition: all 0.25s ease;
+    border-bottom: 1px solid #f1f5f9;
+    background: white;
+}
+
+tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+tbody td {
+    padding: 20px 24px;
+    color: #475569;
+    font-weight: 400;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+/* Serial Number Cell */
+td:first-child {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 15px;
+}
+
+/* Department Name Cell */
+td:nth-child(2) {
+    font-weight: 500;
+    color: #334155;
+    font-size: 16px;
+}
+
+/* Action Buttons Container */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Action Button Styles */
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    cursor: pointer;
+    min-width: 80px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.edit-btn {
+    background: linear-gradient(135deg, #a3bffa 0%, #b794f4 100%);
+    color: white;
+}
+
+.edit-btn:hover {
+    background: linear-gradient(135deg, #93afed 0%, #a683e8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(163, 191, 250, 0.25);
+}
+
+.delete-btn {
+    background: linear-gradient(135deg, #d6bcfa 0%, #fc8181 100%);
+    color: white;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #c5abed 0%, #eb6f6f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(214, 188, 250, 0.25);
+}
+
+.add-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.add-btn:hover {
+    background: linear-gradient(135deg, #459ee8 0%, #00e0e8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.25);
+}
+
+/* Button Icons */
+.action-btn svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.action-btn:hover svg {
+    transform: translateX(2px);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 80px 40px;
+    color: #94a3b8;
+    background: white;
+}
+
+.empty-state p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #64748b;
+}
+
+.add-department-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+}
+
+.add-department-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(102, 126, 234, 0.3);
+}
+
+/* Footer */
+.page-footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.back-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.back-link:hover {
+    color: #764ba2;
+    gap: 12px;
+    border-color: #667eea;
+    transform: translateX(-4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 15px;
+    }
+
+    .page-header {
+        padding: 30px 25px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+
+    .header-text h1 {
+        font-size: 28px;
+    }
+
+    .header-text p {
+        font-size: 16px;
+    }
+
+    .search-wrapper {
+        flex-direction: column;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .clear-search-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        border-radius: 0 0 12px 12px;
+    }
+
+    table {
+        min-width: 800px;
+    }
+
+    thead th {
+        padding: 16px 20px;
+    }
+
+    tbody td {
+        padding: 16px 20px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Hide original table */
+table[width="668"] {
+    display: none;
+}
+
+/* Animation for rows */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+tbody tr {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+tbody tr:nth-child(1) { animation-delay: 0.1s; }
+tbody tr:nth-child(2) { animation-delay: 0.2s; }
+tbody tr:nth-child(3) { animation-delay: 0.3s; }
+tbody tr:nth-child(4) { animation-delay: 0.4s; }
+tbody tr:nth-child(5) { animation-delay: 0.5s; }
+tbody tr:nth-child(n+6) { animation-delay: 0.6s; }
+
+/* No results message */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #64748b;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+}
+
+.no-results h3 {
+    font-size: 20px;
+    color: #475569;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.no-results p {
+    font-size: 15px;
+    margin-bottom: 25px;
+    color: #94a3b8;
+}
+
+/* Hidden class for filtered rows */
+.hidden-row {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+<div class="main-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-text">
+                <h1>Department Management</h1>
+                <p>Manage all departments, faculty, and courses in one place</p>
+            </div>
+            <a href="/Admin_add_dept" class="add-department-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14"></path>
+                    <path d="M5 12h14"></path>
+                </svg>
+                Add New Department
+            </a>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-wrapper">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search departments by name..." autocomplete="off">
+                <button type="button" id="clearSearch" class="clear-search-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Clear
+                </button>
+            </div>
+            <div class="search-info" id="searchInfo">
+                Type to search departments. Results will appear as you type.
+            </div>
+        </div>
+    </div>
+
+    <!-- Departments Table -->
+    <div class="table-container">
+        {% if data %}
+        <table id="departmentsTable">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Department Name</th>
+                    <th>Actions</th>
+                    <th>Add Faculty</th>
+                    <th>Add Stream</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                {% for i in data %}
+                <tr data-dept-name="{{ i.department_name|lower }}" data-original-index="{{ forloop.counter }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.department_name }}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="/Admin_edit_dept/{{ i.id }}" class="action-btn edit-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                                Edit
+                            </a>
+                            <a href="/departmentdltpost/{{ i.id }}" class="action-btn delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this department?')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="/Admin_add_staff/{{ i.id }}" class="action-btn add-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <line x1="20" y1="8" x2="20" y2="14"></line>
+                                <line x1="23" y1="11" x2="17" y2="11"></line>
+                            </svg>
+                            Add Faculty
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/Admin_add_course/{{ i.id }}" class="action-btn add-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                            </svg>
+                            Add Course
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <p>No departments found. Add your first department to get started.</p>
+            <a href="/Admin_add_dept" class="add-department-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14"></path>
+                    <path d="M5 12h14"></path>
+                </svg>
+                Add New Department
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- No Results Message (Hidden by default) -->
+        <div id="noResults" class="no-results" style="display: none;">
+            <h3>No matching departments found</h3>
+            <p>Try searching with different keywords or check the spelling</p>
+            <button type="button" id="clearSearchNoResults" class="clear-search-btn" style="background: #667eea; color: white;">
+                Clear Search
+            </button>
+        </div>
+    </div>
+
+    <div class="page-footer">
+        <a href="#" onclick="history.back()" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Original table form (hidden but functional) -->
+<form action="" method="get" style="display: none;">
+  <div align="center">
+    <table width="668" height="172" border="1">
+      <tr>
+        <th width="177">Slno</th>
+        <th width="219">Department Name</th>
+        <th width="113">Action</th>
+        <th width="131">Add Faculty</th>
+          <th>Add Stream</th>
+      </tr>
+        {% for i in data %}
+      <tr>
+        <td>&nbsp;{{ forloop.counter }}</td>
+        <td>&nbsp;{{ i.department_name }}</td>
+        <td><p><a href="/Admin_edit_dept/{{ i.id }}">Edit </a></p>
+        <p><a href="/departmentdltpost/{{ i.id }}"> Delete</a></p></td>
+        <td><a href="/Admin_add_staff/{{ i.id }}">Add</a></td>
+      <td><a href="/Admin_add_course/{{ i.id }}">Add</a> </td>
+      </tr>
+        {% endfor %}
+    </table>
+  </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearch');
+    const clearSearchNoResults = document.getElementById('clearSearchNoResults');
+    const tableBody = document.getElementById('tableBody');
+    const noResultsDiv = document.getElementById('noResults');
+    const searchInfo = document.getElementById('searchInfo');
+    const rows = tableBody ? tableBody.querySelectorAll('tr') : [];
+
+    // Search function
+    function performSearch() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        if (rows.length > 0) {
+            rows.forEach(row => {
+                const deptName = row.getAttribute('data-dept-name');
+                const originalIndex = parseInt(row.getAttribute('data-original-index'));
+
+                if (searchTerm === '' || deptName.includes(searchTerm)) {
+                    row.style.display = '';
+                    row.classList.remove('hidden-row');
+
+                    // Update serial number based on filtered position
+                    const serialCell = row.querySelector('td:first-child');
+                    if (serialCell) {
+                        serialCell.textContent = ++visibleCount;
+                    }
+
+                    // Add animation
+                    row.style.animation = 'fadeInUp 0.3s ease forwards';
+                } else {
+                    row.style.display = 'none';
+                    row.classList.add('hidden-row');
+                }
+            });
+        }
+
+        // Update search info
+        if (searchTerm === '') {
+            searchInfo.textContent = 'Type to search departments. Results will appear as you type.';
+        } else {
+            searchInfo.textContent = `Found ${visibleCount} department(s) matching "${searchTerm}"`;
+        }
+
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResultsDiv.style.display = 'block';
+        } else {
+            noResultsDiv.style.display = 'none';
+        }
+
+        // Show/hide clear button
+        clearSearchBtn.style.display = searchTerm === '' ? 'none' : 'flex';
+    }
+
+    // Event listeners
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            performSearch();
+        });
+
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Escape') {
+                clearSearch();
+            }
+        });
+    }
+
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', clearSearch);
+    }
+
+    if (clearSearchNoResults) {
+        clearSearchNoResults.addEventListener('click', clearSearch);
+    }
+
+    // Clear search function
+    function clearSearch() {
+        searchInput.value = '';
+        searchInput.focus();
+        performSearch();
+
+        // Add smooth transition
+        searchInput.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+            searchInput.style.transition = '';
+        }, 300);
+    }
+
+    // Initial setup
+    clearSearchBtn.style.display = 'none';
+
+    // Confirmation for delete actions
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('Are you sure you want to delete this department? This action cannot be undone.')) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    // Add smooth hover effect to table rows
+    if (rows.length > 0) {
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('hidden-row')) {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.08)';
+                }
+            });
+
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+    }
+
+    // Add subtle animation to header on load
+    const header = document.querySelector('.page-header');
+    header.style.opacity = '0';
+    header.style.transform = 'translateY(-20px)';
+
+    setTimeout(() => {
+        header.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        header.style.opacity = '1';
+        header.style.transform = 'translateY(0)';
+    }, 100);
+
+    // Add animation to search container
+    const searchContainer = document.querySelector('.search-container');
+    if (searchContainer) {
+        searchContainer.style.opacity = '0';
+        searchContainer.style.transform = 'translateY(-10px)';
+
+        setTimeout(() => {
+            searchContainer.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s';
+            searchContainer.style.opacity = '1';
+            searchContainer.style.transform = 'translateY(0)';
+        }, 200);
+    }
+});
+</script>
+</body>
+</html>
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body><form action="" method="get">#}
+{#  <div align="center">#}
+{#    <table width="668" height="172" border="1">#}
+{#      <tr>#}
+{#        <th width="177">Slno</th>#}
+{#        <th width="219">Department Name</th>#}
+{#        <th width="113">Action</th>#}
+{#        <th width="131">Add Faculty</th>#}
+{#          <th>Add Course</th>#}
+{#      </tr>#}
+{#        {% for i in data %}#}
+{#      <tr>#}
+{#        <td>&nbsp;{{ forloop.counter }}</td>#}
+{#        <td>&nbsp;{{ i.department_name }}</td>#}
+{#        <td><p><a href="/Admin_edit_dept/{{ i.id }}">Edit </a></p>#}
+{#        <p><a href="/departmentdltpost/{{ i.id }}"> Delete</a></p></td>#}
+{#        <td><a href="/Admin_add_staff/{{ i.id }}">Add</a></td>#}
+{#      <td><a href="/Admin_add_course/{{ i.id }}">Add</a> </td>#}
+{#      </tr>#}
+{#        {% endfor %}#}
+{##}
+{#  </table>#}
+{#  </div>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

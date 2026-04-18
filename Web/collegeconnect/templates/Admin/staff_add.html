@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Staff Member - Edura</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #333;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.form-header {
+    padding: 30px;
+    text-align: center;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.form-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: #718096;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+form {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #2d3748;
+    background: #fafbfc;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-input::placeholder {
+    color: #a0aec0;
+    font-size: 13px;
+}
+
+.file-input-container {
+    position: relative;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #718096;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fafbfc;
+    font-size: 13px;
+}
+
+.file-input-label:hover {
+    border-color: #667eea;
+    background: white;
+}
+
+.file-input-label svg {
+    margin-right: 8px;
+    color: #667eea;
+}
+
+.file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 20px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #f7fafc;
+    gap: 8px;
+}
+
+.back-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .form-container {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+
+    .form-header {
+        padding: 25px 20px;
+    }
+
+    .form-header h1 {
+        font-size: 80px;
+    }
+
+    form {
+        padding: 25px;
+    }
+}
+
+/* Hide original table */
+table[width="318"] {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+<div class="form-container">
+    <div class="form-header">
+        <h1 style="font-weight: 800">Add Staff Member</h1>
+        <p>Enter details for new faculty member</p>
+    </div>
+
+    <!-- Modern Form Design -->
+    <form action="/staffaddpost/{{ id }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="textfield">Full Name</label>
+            <input type="text" name="textfield" id="textfield" class="form-input" placeholder="Enter full name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="textfield2">Designation</label>
+            <input type="text" name="textfield2" id="textfield2" class="form-input" placeholder="e.g., Professor" required>
+        </div>
+
+        <div class="form-group">
+            <label for="textfield3">Contact Number</label>
+            <input type="text" name="textfield3" id="textfield3" class="form-input" placeholder="Enter mobile number" required>
+        </div>
+
+        <div class="form-group">
+            <label for="textfield5">Email Address</label>
+            <input type="email" name="textfield5" id="textfield5" class="form-input" placeholder="Enter email address" required>
+        </div>
+
+        <div class="form-group">
+            <label>Profile Picture</label>
+            <div class="file-input-container">
+                <label for="fileField" class="file-input-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Choose Profile Picture
+                </label>
+                <input type="file" name="fileField" id="fileField" class="file-input">
+            </div>
+        </div>
+
+        <button type="submit" name="add" id="add" class="submit-btn">
+            Add Staff Member
+        </button>
+
+        <a href="#" onclick="history.back()" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Department
+        </a>
+    </form>
+</div>
+
+<!-- Original form (hidden but functional) -->
+<form action="/staffaddpost/{{ id }}" method="post" enctype="multipart/form-data" style="display: none;">
+  <div align="center">
+    <table width="318" height="423" border="1">
+      <tr>
+        <th width="157">Name</th>
+        <td width="145"><label for="textfield"></label>
+        <input type="text" name="textfield" id="textfield" /></td>
+      </tr>
+      <tr>
+        <th>Designation</th>
+        <td><label for="textfield2"></label>
+        <input type="text" name="textfield2" id="textfield2" /></td>
+      </tr>
+      <tr>
+        <th>Number</th>
+        <td><label for="textfield3"></label>
+        <input type="text" name="textfield3" id="textfield3" /></td>
+      </tr>
+      <tr>
+        <th>Profile Picture</th>
+        <td><label for="fileField"></label>
+        <input type="file" name="fileField" id="fileField" /></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td><label for="textfield5"></label>
+        <input type="text" name="textfield5" id="textfield5" /></td>
+      </tr>
+      <tr>
+        <th colspan="2"><input type="submit" name="add" id="add" value="Add" /></th>
+      </tr>
+    </table>
+  </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // File input preview text
+    const fileInput = document.getElementById('fileField');
+    const fileLabel = document.querySelector('.file-input-label');
+
+    fileInput.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+            const fileName = this.files[0].name;
+            if (fileName.length > 20) {
+                fileLabel.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                        <polyline points="13 2 13 9 20 9"></polyline>
+                    </svg>
+                    ${fileName.substring(0, 20)}...
+                `;
+            } else {
+                fileLabel.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                        <polyline points="13 2 13 9 20 9"></polyline>
+                    </svg>
+                    ${fileName}
+                `;
+            }
+            fileLabel.style.borderColor = '#667eea';
+            fileLabel.style.color = '#667eea';
+            fileLabel.style.background = '#f8fafc';
+        }
+    });
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const name = document.getElementById('textfield').value.trim();
+        const designation = document.getElementById('textfield2').value.trim();
+        const number = document.getElementById('textfield3').value.trim();
+        const email = document.getElementById('textfield5').value.trim();
+
+        if (!name || !designation || !number || !email) {
+            e.preventDefault();
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            e.preventDefault();
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+         // Phone number validation (basic)
+        const phoneRegex = /^[0-9+\-\s()]{10,}$/;
+        if (!phoneRegex.test(number.replace(/\s/g, ''))) {
+            e.preventDefault();
+            alert('Please enter a valid phone number.');
+            return;
+        }
+    });
+});
+</script>
+</body>
+</html>
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body><form action="/staffaddpost/{{ id }}" method="post" enctype="multipart/form-data">#}
+{#  <div align="center">#}
+{#    <table width="318" height="423" border="1">#}
+{#      <tr>#}
+{#        <th width="157">Name</th>#}
+{#        <td width="145"><label for="textfield"></label>#}
+{#        <input type="text" name="textfield" id="textfield" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <th>Designation</th>#}
+{#        <td><label for="textfield2"></label>#}
+{#        <input type="text" name="textfield2" id="textfield2" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <th>Number</th>#}
+{#        <td><label for="textfield3"></label>#}
+{#        <input type="text" name="textfield3" id="textfield3" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <th>Profile Picture</th>#}
+{#        <td><label for="fileField"></label>#}
+{#        <input type="file" name="fileField" id="fileField" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <th>Email</th>#}
+{#        <td><label for="textfield5"></label>#}
+{#        <input type="text" name="textfield5" id="textfield5" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <th colspan="2"><input type="submit" name="add" id="add" value="Add" /></th>#}
+{#      </tr>#}
+{#    </table>#}
+{#  </div>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

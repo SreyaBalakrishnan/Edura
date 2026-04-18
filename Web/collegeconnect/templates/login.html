@@ -1,0 +1,641 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/2000/svg" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Secure Login Portal</title>
+<!-- Add Bootstrap Icons for the building icon -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #334155;
+}
+
+/* Main Container */
+.login-container {
+    display: flex;
+    width: 900px;
+    min-height: 550px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(106, 90, 205, 0.08);
+    overflow: hidden;
+}
+
+/* Left Panel - Branding */
+.brand-panel {
+    flex: 1;
+    background: linear-gradient(135deg, #4a8df8 0%, #8a2be2 100%);
+    color: white;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23ffffff10" d="M0,0 L100,0 L100,100 Z"/></svg>');
+    background-size: cover;
+}
+
+.brand-logo {
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.logo-icon {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: #4a8df8;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+}
+
+/* Changed: Building icon instead of "E" */
+.logo-icon i {
+    font-size: 28px;
+    color: #4a8df8;
+}
+
+.brand-panel h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+.brand-panel .slogan {
+    opacity: 0.95;
+    line-height: 1.5;
+    font-size: 16px;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+/* Right Panel - Login Form */
+.login-panel {
+    flex: 1;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-header {
+    margin-bottom: 40px;
+}
+
+.login-header h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    color: #64748b;
+    font-size: 15px;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-label svg {
+    margin-right: 8px;
+    color: #8a2be2;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon svg {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    width: 18px;
+    height: 18px;
+}
+
+.input-field {
+    width: 105%;
+    padding: 16px 16px 16px 45px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    background: white;
+    color: #334155;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #8a2be2;
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
+}
+
+/* Password Toggle - ONLY CHANGED THE PADDING */
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 8px; /* Changed padding from 4px to 8px */
+}
+
+.password-toggle:hover {
+    color: #64748b;
+}
+
+/* Remember Me & Forgot Password */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #8a2be2;
+}
+
+.forgot-password {
+    color: #8a2be2;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.forgot-password:hover {
+    color: #4a8df8;
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.submit-btn {
+    background: linear-gradient(to right, #4a8df8, #8a2be2);
+    color: white;
+    border: none;
+    padding: 16px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    letter-spacing: 0.5px;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(to right, #3a7de8, #7a1bd2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(106, 90, 205, 0.2);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.divider span {
+    padding: 0 15px;
+}
+
+/* Social Login */
+.social-login {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.social-btn {
+    padding: 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-btn:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+}
+
+/* Footer Links */
+.login-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.login-footer a {
+    color: #8a2be2;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        width: 95%;
+        max-width: 450px;
+        min-height: auto;
+    }
+
+    .brand-panel {
+        padding: 40px 30px;
+    }
+
+    .login-panel {
+        padding: 40px 30px;
+    }
+
+    .social-login {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Hide original form */
+table {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+<div class="login-container">
+    <!-- Left Brand Panel -->
+    <div class="brand-panel">
+        <div class="brand-logo">
+            <div class="logo-icon">
+                <i class="bi bi-buildings-fill"></i>
+            </div>
+            <h1>Edura</h1>
+            <p class="slogan">Education Excellence Simplified</p>
+        </div>
+
+        <div class="brand-features">
+            <div style="margin-top: 40px;">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 12px;">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>Two-factor authentication</span>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 12px;">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <span>End-to-end encryption</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 12px;">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                    </svg>
+                    <span>24/7 Support</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Login Panel -->
+    <div class="login-panel">
+        <div class="login-header">
+            <h2>Welcome Back</h2>
+            <p>Sign in to your Edura account to continue</p>
+        </div>
+
+        <form id="form1" name="form1" method="post" action="/login1post">
+            <div class="form-group">
+                <label class="form-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Username
+                </label>
+                <div class="input-with-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <input type="text" name="username" id="username" class="input-field" placeholder="Enter your username" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    Password
+                </label>
+                <div class="input-with-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <input type="password" name="password" id="password" class="input-field" placeholder="Enter your password" required />
+                    <button type="button" class="password-toggle" id="togglePassword">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember" id="remember">
+                    <span>Remember me</span>
+                </label>
+                <a href="/forgotpassword" class="forgot-password">Forgot password?</a>
+            </div>
+
+            <button type="submit" name="login" id="login" class="submit-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                    <polyline points="10 17 15 12 10 7"></polyline>
+                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+                Sign In
+            </button>
+
+            <div class="divider">
+                <span>Or continue with</span>
+            </div>
+
+{#            <div class="social-login">#}
+{#                <button type="button" class="social-btn">#}
+{#                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">#}
+{#                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>#}
+{#                    </svg>#}
+{#                    Facebook#}
+{#                </button>#}
+{#                <button type="button" class="social-btn">#}
+{#                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">#}
+{#                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>#}
+{#                    </svg>#}
+{#                    Twitter#}
+{#                </button>#}
+{#            </div>#}
+
+            <div class="login-footer">
+                Don't have an account? <a href="#">Contact administrator</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Original form (hidden) for backward compatibility -->
+<form id="form1-original" name="form1" method="post" action="/login1post" style="display: none;">
+  <div align="center">
+    <table width="383" height="272" border="1">
+      <tr>
+        <th width="232" height="92">User Name</th>
+        <td width="233"><label for="username"></label>
+        <input type="text" name="username" id="username-table" /></td>
+      </tr>
+      <tr>
+        <th height="92">Password</th>
+        <td><label for="password"></label>
+        <input type="text" name="password" id="password-table" /></td>
+      </tr>
+      <tr>
+        <td height="78" colspan="2"><div align="center">
+          <input type="submit" name="login" id="login-table" value="Login" />
+        </div></td>
+      </tr>
+    </table>
+  </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle password visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        // Update eye icon
+        this.innerHTML = type === 'password' ?
+            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>' :
+            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+    });
+
+    // Form submission handling
+    const newForm = document.getElementById('form1');
+    const originalForm = document.getElementById('form1-original');
+    const originalUsername = document.getElementById('username-table');
+    const originalPassword = document.getElementById('password-table');
+
+    // Sync username
+    const usernameInput = document.getElementById('username');
+    usernameInput.addEventListener('input', function() {
+        originalUsername.value = this.value;
+    });
+
+    // Sync password
+    passwordInput.addEventListener('input', function() {
+        originalPassword.value = this.value;
+    });
+
+    // Handle form submission
+    newForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Basic validation
+        if (!usernameInput.value.trim()) {
+            alert('Please enter your username');
+            usernameInput.focus();
+            return;
+        }
+
+        if (!passwordInput.value.trim()) {
+            alert('Please enter your password');
+            passwordInput.focus();
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = document.getElementById('login');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity="0.25"/><path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg> Authenticating...';
+        submitBtn.disabled = true;
+
+        // Sync remember me (if needed)
+        const rememberCheckbox = document.getElementById('remember');
+        // You could add remember me functionality here
+
+        // Submit original form after a brief delay to show loading state
+        setTimeout(() => {
+            originalForm.submit();
+        }, 500);
+    });
+
+    // Add CSS for spinner animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#<style>#}
+{#body{#}
+{#	font-family:"Arial Black", Gadget, sans-serif;#}
+{#	background:#FFF;#}
+{#	padding:30px;#}
+{#}#}
+{#table{#}
+{#	width:600px;#}
+{#	margin:auto;#}
+{#	background:#FFF;#}
+{#	border:2px solid #000;#}
+{#}#}
+{##}
+{##}
+{#</style>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="/login1post">#}
+{#  <div align="center">#}
+{#    <table width="383" height="272" border="1">#}
+{#      <tr>#}
+{#        <th width="232" height="92">User Name</th>#}
+{#        <td width="233"><label for="username"></label>#}
+{#        <input type="text" name="username" id="username" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <th height="92">Password</th>#}
+{#        <td><label for="password"></label>#}
+{#        <input type="text" name="password" id="password" /></td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <td height="78" colspan="2"><div align="center">#}
+{#          <input type="submit" name="login" id="login" value="Login" />#}
+{#        </div></td>#}
+{#      </tr>#}
+{#    </table>#}
+{#  </div>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
